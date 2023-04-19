@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { getEmail } from '../redux/actions/action';
 
 class Login extends Component {
@@ -51,7 +50,6 @@ class Login extends Component {
         </label>
         <label
           htmlFor=""
-          data-testid="input-player-name"
         >
           Nome
           <input
@@ -59,6 +57,7 @@ class Login extends Component {
             value={ name }
             name="name"
             onChange={ this.handleChange }
+            data-testid="input-player-name"
           />
         </label>
         <button
