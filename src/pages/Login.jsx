@@ -24,6 +24,11 @@ class Login extends Component {
     history.push('/game');
   };
 
+  handleConfigButton = () => {
+    const { history } = this.props;
+    history.push('/config');
+  };
+
   render() {
     const { email, name } = this.state;
     return (
@@ -50,6 +55,14 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.handleConfigButton }
+        >
+          Configuração
+
+        </button>
         <button
           type="submit"
           disabled={ !name || !email }
