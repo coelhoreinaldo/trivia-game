@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Login extends Component {
   state = {
@@ -45,7 +46,6 @@ class Login extends Component {
         </label>
         <label
           htmlFor=""
-          data-testid="input-player-name"
         >
           Nome
           <input
@@ -53,6 +53,7 @@ class Login extends Component {
             value={ name }
             name="name"
             onChange={ this.handleChange }
+            data-testid="input-player-name"
           />
         </label>
         <button
@@ -82,4 +83,4 @@ Login.propTypes = {
   }).isRequired,
 };
 
-export default Login;
+export default connect()(Login);
