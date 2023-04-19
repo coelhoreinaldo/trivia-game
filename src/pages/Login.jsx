@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { getEmail } from '../redux/actions/action';
 
 class Login extends Component {
   state = {
@@ -17,6 +20,9 @@ class Login extends Component {
   };
 
   handleClick = async () => {
+    const { email, name } = this.state;
+    const { dispatch } = this.props;
+    dispatch(getEmail(email, name));
     await fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => response.json())
       .then((json) => localStorage.setItem('token', json.token));
@@ -77,9 +83,10 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default Login;
+export default connect()(Login);
