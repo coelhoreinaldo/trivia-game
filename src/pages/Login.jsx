@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { getEmail } from '../redux/actions/action';
 
 class Login extends Component {
   state = {
@@ -13,6 +17,13 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+  };
+
+  handleClick = () => {
+    const { email, name } = this.state;
+    const { dispatch } = this.props;
+    console.log(email);
+    dispatch(getEmail(email, name));
   };
 
   render() {
@@ -41,16 +52,23 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          type="submit"
-          disabled={ !name || !email }
-          data-testid="btn-play"
-        >
-          Play
-        </button>
+        <Link to="/game">
+          <button
+            type="submit"
+            disabled={ !name || !email }
+            data-testid="btn-play"
+            onClick={ () => this.handleClick() }
+          >
+            Play
+          </button>
+        </Link>
       </form>
     );
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(Login);
