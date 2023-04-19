@@ -19,11 +19,20 @@ class Login extends Component {
     event.preventDefault();
   };
 
-  handleClick = () => {
+  handleClick = async () => {
     const { email, name } = this.state;
     const { dispatch } = this.props;
-    console.log(email);
     dispatch(getEmail(email, name));
+    await fetch('https://opentdb.com/api_token.php?command=request')
+      .then((response) => response.json())
+      .then((json) => localStorage.setItem('token', json.token));
+    const { history } = this.props;
+    history.push('/game');
+  };
+
+  handleConfigButton = () => {
+    const { history } = this.props;
+    history.push('/config');
   };
 
   render() {
@@ -52,16 +61,22 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="/game">
-          <button
-            type="submit"
-            disabled={ !name || !email }
-            data-testid="btn-play"
-            onClick={ () => this.handleClick() }
-          >
-            Play
-          </button>
-        </Link>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.handleConfigButton }
+        >
+          Configuração
+
+        </button>
+        <button
+          type="submit"
+          disabled={ !name || !email }
+          data-testid="btn-play"
+          onClick={ this.handleClick }
+        >
+          Play
+        </button>
       </form>
     );
   }
@@ -69,6 +84,9 @@ class Login extends Component {
 
 Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect()(Login);

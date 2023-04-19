@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Game extends Component {
@@ -9,9 +8,5 @@ class Game extends Component {
     );
   }
 }
-
-// Game.propTypes = {
-
-// };
 
 export default Game;
