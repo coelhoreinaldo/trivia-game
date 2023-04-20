@@ -101,8 +101,22 @@ class Game extends Component {
     return answer === correctAnswer ? 'green' : 'red';
   };
 
+  handleNextClick = () => {
+    this.setState(
+      (prevState) => ({
+        currentQuestionIndex: prevState.currentQuestionIndex + 1,
+        selectedAnswer: null,
+        timer: 30,
+      }),
+      () => this.randomAnswers(),
+    );
+  };
+
   render() {
-    const { questions, allAnswers, timer, currentQuestionIndex } = this.state;
+    const { questions,
+      allAnswers, timer, currentQuestionIndex, selectedAnswer } = this.state;
+    const showNextButton = selectedAnswer !== null
+    && currentQuestionIndex < questions.length - 1;
 
     if (questions.length === 0) {
       return <p>Carregando...</p>;
@@ -143,6 +157,14 @@ class Game extends Component {
               </button>
             </div>
           ))}
+          {showNextButton && (
+            <button
+              data-testid="btn-next"
+              onClick={ this.handleNextClick }
+            >
+              Next
+            </button>
+          )}
         </section>
         <section>
           <h1>{timer !== 0 ? timer : 'O tempo acabou'}</h1>
