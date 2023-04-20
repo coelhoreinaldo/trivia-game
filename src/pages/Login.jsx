@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getEmail } from '../redux/actions/action';
 
+const TOKEN_EXPIRED = 3;
+
 class Login extends Component {
   state = {
     email: '',
@@ -18,14 +20,22 @@ class Login extends Component {
     event.preventDefault();
   };
 
-  handleClick = async () => {
+  // Troquei o handleClick por handleAPI, mas se der algum conflito com os testes podemos voltar aqui
+  handleAPI = async () => {
     const { email, name } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
+
     dispatch(getEmail(email, name));
     await fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => response.json())
-      .then((json) => localStorage.setItem('token', json.token));
-    const { history } = this.props;
+      .then((json) => {
+        if (json.response_code === TOKEN_EXPIRED) {
+          localStorage.removeItem('token');
+          history.push('/');
+        } else {
+          localStorage.setItem('token', json.token);
+        }
+      });
     history.push('/game');
   };
 
@@ -72,7 +82,7 @@ class Login extends Component {
           type="submit"
           disabled={ !name || !email }
           data-testid="btn-play"
-          onClick={ this.handleClick }
+          onClick={ this.handleAPI }
         >
           Play
         </button>
