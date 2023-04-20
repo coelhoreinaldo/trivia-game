@@ -1,4 +1,4 @@
-import { GET_USER, INCREMENT_SCORE } from '../actions/typeActions';
+import { GET_ASSERTIONS, GET_USER, INCREMENT_SCORE } from '../actions/typeActions';
 
 const INITIAL_STATE = {
   gravatarEmail: '',
@@ -19,6 +19,11 @@ export const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: state.score + action.payload,
+    };
+  case GET_ASSERTIONS:
+    return {
+      ...state,
+      assertions: state.assertions + action.assertions,
     };
   default:
     return state;
