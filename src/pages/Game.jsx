@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import './Game.css';
 
 const RANDOM_SORT = 0.5;
 const TOKEN_EXPIRED = 3;
@@ -12,6 +13,7 @@ class Game extends Component {
     this.state = {
       questions: [],
       currentQuestion: 0,
+      selectedAnswer: null,
     };
   }
 
@@ -39,6 +41,21 @@ class Game extends Component {
     }
   };
 
+  // Atualiza o state 'selectedAnswer' com a resposta clicada.
+  handleAnswerClick = (answer) => {
+    this.setState({ selectedAnswer: answer });
+  };
+
+  // Retorna a classe CSS para uma opção de resposta com base na selecionada.
+  getAnswerClassName = (answer, correctAnswer) => {
+    const { selectedAnswer } = this.state;
+
+    if (!selectedAnswer) {
+      return '';
+    }
+    return answer === correctAnswer ? 'green' : 'red';
+  };
+
   render() {
     const { questions, currentQuestion } = this.state;
 
@@ -54,6 +71,10 @@ class Game extends Component {
       question.correct_answer,
     ].sort(() => Math.random() - RANDOM_SORT);
 
+    //
+    const answerClassName = (answer) => this
+      .getAnswerClassName(answer, question.correct_answer);
+
     return (
       <div>
         <Header />
@@ -68,6 +89,8 @@ class Game extends Component {
         {allAnswers.map((answer, index) => (
           <div key={ index } data-testid="answer-options">
             <button
+              className={ answerClassName(answer) }
+              onClick={ () => this.handleAnswerClick(answer) }
               data-testid={
                 answer === question.correct_answer
                   ? 'correct-answer'
@@ -78,6 +101,7 @@ class Game extends Component {
             </button>
           </div>
         ))}
+
       </div>
     );
   }
