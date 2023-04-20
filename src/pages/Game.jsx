@@ -110,8 +110,8 @@ class Game extends Component {
           {allAnswers.map((answer, index) => (
             <div key={ index } data-testid="answer-options">
               <button
-              className={ answerClassName(answer) }
-              onClick={ () => this.handleAnswerClick(answer) }
+                className={ answerClassName(answer) }
+                onClick={ () => this.handleAnswerClick(answer) }
                 disabled={ timer === 0 }
                 data-testid={
                   answer === question.correct_answer
