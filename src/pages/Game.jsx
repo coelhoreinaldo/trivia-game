@@ -103,6 +103,11 @@ class Game extends Component {
   };
 
   handleNextClick = () => {
+    const { currentQuestionIndex, questions } = this.state;
+    const { history } = this.props;
+    if (currentQuestionIndex === questions.length - 1) {
+      history.push('/feedback');
+    }
     this.setState(
       (prevState) => ({
         currentQuestionIndex: prevState.currentQuestionIndex + 1,
@@ -116,8 +121,7 @@ class Game extends Component {
   render() {
     const { questions,
       allAnswers, timer, currentQuestionIndex, selectedAnswer } = this.state;
-    const showNextButton = selectedAnswer !== null
-    && currentQuestionIndex < questions.length - 1;
+    const showNextButton = selectedAnswer !== null;
 
     if (questions.length === 0) {
       return <p>Carregando...</p>;
