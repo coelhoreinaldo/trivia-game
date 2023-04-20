@@ -83,6 +83,7 @@ class Game extends Component {
     const { questions, currentQuestionIndex, timer } = this.state;
     const { dispatch } = this.props;
     this.setState({ selectedAnswer: answer });
+    clearTimeout(this.timeout);
     if (questions[currentQuestionIndex].correct_answer === answer) {
       const CURR_SCOR = calculateScore(questions[currentQuestionIndex].difficulty, timer);
       dispatch(incrementScore(CURR_SCOR));
@@ -146,7 +147,7 @@ class Game extends Component {
               <button
                 className={ answerClassName(answer) }
                 onClick={ () => this.handleAnswerClick(answer) }
-                disabled={ timer === 0 }
+                disabled={ timer === 0 || selectedAnswer }
                 data-testid={
                   answer === questions[currentQuestionIndex].correct_answer
                     ? 'correct-answer'
