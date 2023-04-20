@@ -9,6 +9,7 @@ class Login extends Component {
   state = {
     email: '',
     name: '',
+    loading: false,
   };
 
   handleChange = ({ target }) => {
@@ -18,9 +19,10 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    this.handleAPI();
+    this.setState({ loading: true });
   };
 
-  // Troquei o handleClick por handleAPI, mas se der algum conflito com os testes podemos voltar aqui
   handleAPI = async () => {
     const { email, name } = this.state;
     const { dispatch, history } = this.props;
@@ -45,7 +47,7 @@ class Login extends Component {
   };
 
   render() {
-    const { email, name } = this.state;
+    const { email, name, loading } = this.state;
     return (
       <form onSubmit={ this.handleSubmit }>
         <label htmlFor="">
@@ -80,11 +82,10 @@ class Login extends Component {
         </button>
         <button
           type="submit"
-          disabled={ !name || !email }
+          disabled={ !name || !email || loading }
           data-testid="btn-play"
-          onClick={ this.handleAPI }
         >
-          Play
+          {loading ? '...' : 'Play'}
         </button>
       </form>
     );

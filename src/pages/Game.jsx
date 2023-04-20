@@ -14,12 +14,35 @@ class Game extends Component {
       questions: [],
       currentQuestion: 0,
       selectedAnswer: null,
+      timer: 30,
     };
   }
 
   componentDidMount() {
     this.fetchQuestions();
+    this.handleTimer();
   }
+
+  componentDidUpdate(_, prevState) {
+    const { timer } = this.state;
+    if (timer !== prevState.timer && prevState.timer !== 1) {
+      this.handleTimer();
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
+  handleTimer = () => {
+    const ONE_SECOND_INTERVAL = 1000;
+
+    this.timeout = setTimeout(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }, ONE_SECOND_INTERVAL);
+  };
 
   // Busca as perguntas da API
   fetchQuestions = async () => {
@@ -57,7 +80,7 @@ class Game extends Component {
   };
 
   render() {
-    const { questions, currentQuestion } = this.state;
+    const { questions, currentQuestion, timer } = this.state;
 
     // Mensagem de carregamento enquanto as perguntas não são carregadas
     if (questions.length === 0) {
@@ -78,30 +101,32 @@ class Game extends Component {
     return (
       <div>
         <Header />
-
-        {/* Exibe a categoria da pergunta */}
-        <div data-testid="question-category">{question.category}</div>
-
-        {/* Exibe a pergunta */}
-        <div data-testid="question-text">{question.question}</div>
-
-        {/* Mapeia e exibe as alternativas */}
-        {allAnswers.map((answer, index) => (
-          <div key={ index } data-testid="answer-options">
-            <button
+        <section>
+          {/* Exibe a categoria da pergunta */}
+          <div data-testid="question-category">{question.category}</div>
+          {/* Exibe a pergunta */}
+          <div data-testid="question-text">{question.question}</div>
+          {/* Mapeia e exibe as alternativas */}
+          {allAnswers.map((answer, index) => (
+            <div key={ index } data-testid="answer-options">
+              <button
               className={ answerClassName(answer) }
               onClick={ () => this.handleAnswerClick(answer) }
-              data-testid={
-                answer === question.correct_answer
-                  ? 'correct-answer'
-                  : `wrong-answer-${index}`
-              }
-            >
-              {answer}
-            </button>
-          </div>
-        ))}
-
+                disabled={ timer === 0 }
+                data-testid={
+                  answer === question.correct_answer
+                    ? 'correct-answer'
+                    : `wrong-answer-${index}`
+                }
+              >
+                {answer}
+              </button>
+            </div>
+          ))}
+        </section>
+        <section>
+          <h1>{timer !== 0 ? timer : 'O tempo acabou'}</h1>
+        </section>
       </div>
     );
   }
