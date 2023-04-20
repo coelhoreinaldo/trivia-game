@@ -5,6 +5,7 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
+    const MIN_ASSERTIONS = 3;
     const { assertions, score, history } = this.props;
     return (
       <div>
@@ -12,6 +13,12 @@ class Feedback extends Component {
         <h1 data-testid="feedback-text">Feedbacks</h1>
         <p data-testid="feedback-total-score">{score}</p>
         <p data-testid="feedback-total-question">{assertions}</p>
+        <p data-testid="feedback-text">
+          {
+            assertions < MIN_ASSERTIONS ? 'Could be better...' : 'Well Done!'
+          }
+
+        </p>
         <button
           data-testid="btn-play-again"
           onClick={ () => history.push('/') }
