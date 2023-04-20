@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import './Game.css';
-import { incrementScore } from '../redux/actions/action';
+import { getAssertions, incrementScore } from '../redux/actions/action';
 import calculateScore from '../utils/calculateScore';
 
 const RANDOM_SORT = 0.5;
@@ -87,9 +87,16 @@ class Game extends Component {
     if (questions[currentQuestionIndex].correct_answer === answer) {
       const CURR_SCOR = calculateScore(questions[currentQuestionIndex].difficulty, timer);
       dispatch(incrementScore(CURR_SCOR));
-    } else {
-      console.log('vc errou');
+      dispatch(getAssertions(1));
     }
+    //  else {
+    //   this.setState(
+    //     {
+    //       wrongQuestions: wrongQuestions += 1,
+    //     },
+    //     () => dispatch(getAssrtions(wrongQuestions)),
+    //   );
+    // }
   };
 
   // Retorna a classe CSS para uma opção de resposta com base na selecionada.
@@ -120,8 +127,11 @@ class Game extends Component {
 
   render() {
     const { questions,
-      allAnswers, timer, currentQuestionIndex, selectedAnswer } = this.state;
+      allAnswers,
+      timer, currentQuestionIndex, selectedAnswer, wrongQuestions } = this.state;
     const showNextButton = selectedAnswer !== null;
+
+    console.log(wrongQuestions);
 
     if (questions.length === 0) {
       return <p>Carregando...</p>;
@@ -184,7 +194,6 @@ Game.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
-
 };
 
 export default connect()(Game);
