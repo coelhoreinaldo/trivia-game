@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import './Game.css';
+import { incrementScore } from '../redux/actions/action';
+import calculateScore from '../utils/calculateScore';
 
 const RANDOM_SORT = 0.5;
 const TOKEN_EXPIRED = 3;
@@ -58,7 +60,6 @@ class Game extends Component {
     }, ONE_SECOND_INTERVAL);
   };
 
-  // Busca as perguntas da API
   fetchQuestions = async () => {
     const { history } = this.props;
 
@@ -73,14 +74,21 @@ class Game extends Component {
       localStorage.removeItem('token');
       history.push('/');
     } else {
-      // Caso contrário, atualiza o state com as perguntas recebidas
       this.setState(({ questions: data.results }), () => this.randomAnswers());
     }
   };
 
   // Atualiza o state 'selectedAnswer' com a resposta clicada.
   handleAnswerClick = (answer) => {
+    const { questions, currentQuestionIndex, timer } = this.state;
+    const { dispatch } = this.props;
     this.setState({ selectedAnswer: answer });
+    if (questions[currentQuestionIndex].correct_answer === answer) {
+      const CURR_SCOR = calculateScore(questions[currentQuestionIndex].difficulty, timer);
+      dispatch(incrementScore(CURR_SCOR));
+    } else {
+      console.log('vc errou');
+    }
   };
 
   // Retorna a classe CSS para uma opção de resposta com base na selecionada.
@@ -96,7 +104,6 @@ class Game extends Component {
   render() {
     const { questions, allAnswers, timer, currentQuestionIndex } = this.state;
 
-    // Mensagem de carregamento enquanto as perguntas não são carregadas
     if (questions.length === 0) {
       return <p>Carregando...</p>;
     }
@@ -108,21 +115,18 @@ class Game extends Component {
       <div>
         <Header />
         <section>
-          {/* Exibe a categoria da pergunta */}
           <div data-testid="question-category">
             {
               questions[currentQuestionIndex].category
             }
 
           </div>
-          {/* Exibe a pergunta */}
           <div data-testid="question-text">
             {
               questions[currentQuestionIndex].question
             }
 
           </div>
-          {/* Mapeia e exibe as alternativas */}
           {allAnswers.map((answer, index) => (
             <div key={ index } data-testid="answer-options">
               <button
@@ -152,6 +156,8 @@ Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+
 };
 
 export default connect()(Game);
