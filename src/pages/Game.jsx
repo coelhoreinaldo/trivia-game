@@ -12,9 +12,10 @@ class Game extends Component {
     super(props);
     this.state = {
       questions: [],
-      currentQuestion: 0,
+      currentQuestionIndex: 0,
       selectedAnswer: null,
       timer: 30,
+      allAnswers: [],
     };
   }
 
@@ -33,6 +34,19 @@ class Game extends Component {
   componentWillUnmount() {
     clearTimeout(this.timeout);
   }
+
+  randomAnswers = () => {
+    const { currentQuestionIndex, questions } = this.state;
+
+    const question = questions[currentQuestionIndex];
+
+    this.setState({
+      allAnswers: [
+        ...question.incorrect_answers,
+        question.correct_answer,
+      ].sort(() => Math.random() - RANDOM_SORT),
+    });
+  };
 
   handleTimer = () => {
     const ONE_SECOND_INTERVAL = 1000;
@@ -60,7 +74,7 @@ class Game extends Component {
       history.push('/');
     } else {
       // Caso contrário, atualiza o state com as perguntas recebidas
-      this.setState({ questions: data.results });
+      this.setState(({ questions: data.results }), () => this.randomAnswers());
     }
   };
 
@@ -80,32 +94,34 @@ class Game extends Component {
   };
 
   render() {
-    const { questions, currentQuestion, timer } = this.state;
+    const { questions, allAnswers, timer, currentQuestionIndex } = this.state;
 
     // Mensagem de carregamento enquanto as perguntas não são carregadas
     if (questions.length === 0) {
       return <p>Carregando...</p>;
     }
 
-    // Obtém a pergunta atual e as respostas (em ordem aleatória)
-    const question = questions[currentQuestion];
-    const allAnswers = [
-      ...question.incorrect_answers,
-      question.correct_answer,
-    ].sort(() => Math.random() - RANDOM_SORT);
-
-    //
     const answerClassName = (answer) => this
-      .getAnswerClassName(answer, question.correct_answer);
+      .getAnswerClassName(answer, questions[currentQuestionIndex].correct_answer);
 
     return (
       <div>
         <Header />
         <section>
           {/* Exibe a categoria da pergunta */}
-          <div data-testid="question-category">{question.category}</div>
+          <div data-testid="question-category">
+            {
+              questions[currentQuestionIndex].category
+            }
+
+          </div>
           {/* Exibe a pergunta */}
-          <div data-testid="question-text">{question.question}</div>
+          <div data-testid="question-text">
+            {
+              questions[currentQuestionIndex].question
+            }
+
+          </div>
           {/* Mapeia e exibe as alternativas */}
           {allAnswers.map((answer, index) => (
             <div key={ index } data-testid="answer-options">
@@ -114,7 +130,7 @@ class Game extends Component {
                 onClick={ () => this.handleAnswerClick(answer) }
                 disabled={ timer === 0 }
                 data-testid={
-                  answer === question.correct_answer
+                  answer === questions[currentQuestionIndex].correct_answer
                     ? 'correct-answer'
                     : `wrong-answer-${index}`
                 }
