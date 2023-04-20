@@ -105,7 +105,8 @@ class Game extends Component {
   };
 
   render() {
-    const { questions, allAnswers, timer, currentQuestionIndex, selectedAnswer } = this.state;
+    const { questions,
+      allAnswers, timer, currentQuestionIndex, selectedAnswer } = this.state;
     const showNextButton = selectedAnswer !== null
     && currentQuestionIndex < questions.length - 1;
 
