@@ -6,10 +6,6 @@ const calculateScore = (difficulty, timer) => {
   };
   const WIN_POINTS = 10;
 
-  console.log(difficulty, 'dificuldade');
-  console.log(timer, 'timer');
-  console.log(WIN_POINTS, 'win_points');
-  console.log(levels[difficulty] * timer);
   return WIN_POINTS + (levels[difficulty] * timer);
 };
 
