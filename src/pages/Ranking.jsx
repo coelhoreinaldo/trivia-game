@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './Ranking.css';
 
 class Ranking extends Component {
   render() {
@@ -7,25 +8,35 @@ class Ranking extends Component {
     const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia'));
     rankingLS.sort((a, b) => b.score - a.score);
     return (
-      <div>
+      <div className="cointainer-page-ranking">
         <h1 data-testid="ranking-title">RANKING</h1>
 
-        <div>
+        <div className="container-users-ranking">
           {
             rankingLS.map((user, index) => (
-              <div key={ index }>
+              <div
+                key={ index }
+                className="container-user"
+              >
                 <img
                   src={ user.urlIMG }
                   alt="Imagem do participante"
+                  className="img-user"
                 />
-                <p data-testid={ `player-name-${index}` }>{user.name}</p>
-                <p data-testid={ `player-score-${index}` }>{user.score}</p>
+                <div className="name-score-user">
+                  <span data-testid={ `player-name-${index}` }>{user.name}</span>
+                  <div className="score-user">
+                    <span data-testid={ `player-score-${index}` }>{user.score}</span>
+                    <span className="pts">pts</span>
+                  </div>
+                </div>
               </div>
             ))
           }
         </div>
 
         <button
+          className="ranking-btn"
           data-testid="btn-go-home"
           onClick={ () => history.push('/') }
         >
