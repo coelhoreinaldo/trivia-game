@@ -3,6 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
+import { mockApiData } from './helpers/apiMock';
 
 const initialState = {
   name: '',
@@ -35,7 +36,7 @@ describe('the login page', () => {
 
     const emailEl = screen.getByTestId(emailTestId);
     const nameEl = screen.getByTestId(nameTestId);
-    
+
     userEvent.type(emailEl, email);
     userEvent.type(nameEl, '123435');
 
@@ -45,11 +46,11 @@ describe('the login page', () => {
 
   it('should make a fetch when the button play is clicked', () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
-      json: async () => ('18feffcc13ca1612f4b20c1f4a9fd9be6de3de3a523a70ad60e835d2dc430dd2')
+      json: async () => (mockApiData)
     })
 
-    renderWithRouterAndRedux(<App />);
-  
+    const { history } = renderWithRouterAndRedux(<App />);
+
     const emailEl = screen.getByTestId(emailTestId);
     const nameEl = screen.getByTestId(nameTestId);
 
@@ -64,7 +65,7 @@ describe('the login page', () => {
 
   it('should redirect to settings page when the button settings is clicked', () => {
     const { history } = renderWithRouterAndRedux(<App />);
-  
+
     const emailEl = screen.getByTestId(emailTestId);
     const nameEl = screen.getByTestId(nameTestId);
 

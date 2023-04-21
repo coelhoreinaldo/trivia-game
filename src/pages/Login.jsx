@@ -28,16 +28,16 @@ class Login extends Component {
     const { dispatch, history } = this.props;
 
     dispatch(getEmail(email, name));
-    await fetch('https://opentdb.com/api_token.php?command=request')
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.response_code === TOKEN_EXPIRED) {
-          localStorage.removeItem('token');
-          history.push('/');
-        } else {
-          localStorage.setItem('token', json.token);
-        }
-      });
+    const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    const data = await response.json();
+
+    if (data.response_code === TOKEN_EXPIRED) {
+      localStorage.removeItem('token');
+      history.push('/');
+    } else {
+      localStorage.setItem('token', data.token);
+    }
+
     history.push('/game');
   };
 

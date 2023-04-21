@@ -46,7 +46,7 @@ class Feedback extends Component {
     return (
       <div>
         <Header />
-        <h1 data-testid="feedback-text">Feedbacks</h1>
+        <h1>Feedbacks</h1>
         <p data-testid="feedback-total-score">{score}</p>
         <p data-testid="feedback-total-question">{assertions}</p>
         <p data-testid="feedback-text">
