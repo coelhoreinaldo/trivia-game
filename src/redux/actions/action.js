@@ -1,4 +1,4 @@
-import { GET_ASSERTIONS, GET_USER, INCREMENT_SCORE } from './typeActions';
+import { GET_ASSERTIONS, GET_USER, INCREMENT_SCORE, RESET_USER } from './typeActions';
 
 export const getEmail = (email, name) => ({
   type: GET_USER,
@@ -14,4 +14,8 @@ export const incrementScore = (payload) => ({
 export const getAssertions = (assertions) => ({
   type: GET_ASSERTIONS,
   assertions,
+});
+
+export const resetUser = () => ({
+  type: RESET_USER,
 });

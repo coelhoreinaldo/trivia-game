@@ -89,14 +89,6 @@ class Game extends Component {
       dispatch(incrementScore(CURR_SCOR));
       dispatch(getAssertions(1));
     }
-    //  else {
-    //   this.setState(
-    //     {
-    //       wrongQuestions: wrongQuestions += 1,
-    //     },
-    //     () => dispatch(getAssrtions(wrongQuestions)),
-    //   );
-    // }
   };
 
   // Retorna a classe CSS para uma opção de resposta com base na selecionada.
@@ -128,10 +120,9 @@ class Game extends Component {
   render() {
     const { questions,
       allAnswers,
-      timer, currentQuestionIndex, selectedAnswer, wrongQuestions } = this.state;
-    const showNextButton = selectedAnswer !== null;
+      timer, currentQuestionIndex, selectedAnswer } = this.state;
 
-    console.log(wrongQuestions);
+    const showNextButton = selectedAnswer !== null;
 
     if (questions.length === 0) {
       return <p>Carregando...</p>;
