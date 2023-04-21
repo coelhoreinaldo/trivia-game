@@ -3,10 +3,21 @@ import PropTypes from 'prop-types';
 import './Ranking.css';
 
 class Ranking extends Component {
-  render() {
-    const { history } = this.props;
+  state = {
+    rankingLS: [],
+  };
+
+  componentDidMount() {
     const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia'));
     rankingLS.sort((a, b) => b.score - a.score);
+    this.setState({
+      rankingLS,
+    });
+  }
+
+  render() {
+    const { history } = this.props;
+    const { rankingLS } = this.state;
     return (
       <div className="cointainer-page-ranking">
         <h1 data-testid="ranking-title">RANKING</h1>

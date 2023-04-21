@@ -69,7 +69,6 @@ class Game extends Component {
     );
     const data = await response.json();
 
-    // Verifica se o token é inválido e redireciona para a tela de login se for
     if (data.response_code === TOKEN_EXPIRED) {
       localStorage.removeItem('token');
       history.push('/');
@@ -78,7 +77,6 @@ class Game extends Component {
     }
   };
 
-  // Atualiza o state 'selectedAnswer' com a resposta clicada.
   handleAnswerClick = (answer) => {
     const { questions, currentQuestionIndex, timer } = this.state;
     const { dispatch } = this.props;
@@ -91,7 +89,6 @@ class Game extends Component {
     }
   };
 
-  // Retorna a classe CSS para uma opção de resposta com base na selecionada.
   getAnswerClassName = (answer, correctAnswer) => {
     const { selectedAnswer } = this.state;
 
