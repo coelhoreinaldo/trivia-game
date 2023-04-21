@@ -53,6 +53,13 @@ class Game extends Component {
     } else {
       history.push('/');
     }
+    // Pra mim esse seria o certo, mas o cypress reprova????
+    // this.setState({
+    //   allAnswers: [
+    //     ...question.incorrect_answers,
+    //     question.correct_answer,
+    //   ].sort(() => Math.random() - RANDOM_SORT),
+    // });
   };
 
   handleTimer = () => {

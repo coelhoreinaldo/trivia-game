@@ -5,6 +5,7 @@ import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
 import mockLocalStorage from './helpers/rankingMock';
 import { fail, mockApiData } from './helpers/apiMock';
+import { act } from 'react-dom/test-utils';
 
 const initialState = {
   player: {
@@ -106,18 +107,22 @@ describe('the game page', () => {
 
     expect(history.location.pathname).toBe('/feedback')
   })
-  // it('should show the expected text when the times out', async () => {
-  //   jest.setTimeout(25000)
-  //   jest.useFakeTimers()
-  //   renderWithRouterAndRedux(<App />, initialState, "/game")
+  it('should show the expected text when the times out', async () => {
+    jest.useFakeTimers();
+    renderWithRouterAndRedux(<App />, initialState, "/game")
 
+    const timerInitialState = await screen.findByText('30');
+    expect(timerInitialState).toBeInTheDocument();
 
-  //   await waitFor(() => screen.getByRole('heading', { name: /o tempo acabou/i }))
-  //   const timeOut = await screen.findByRole('heading', { name: /o tempo acabou/i })
-  //   expect(timeOut).toBeInTheDocument();
+    for (let i = 0; i < 31; i += 1) {
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+    }
 
-
-  // })
+    const timeOutText = screen.getByRole('heading', { name: /o tempo acabou/i });
+    expect(timeOutText).toBeInTheDocument();
+  })
 });
 
 describe('the game page', () => {
@@ -134,17 +139,5 @@ describe('the game page', () => {
 
     expect(history.location.pathname).toBe('/')
   })
-
-  // try {
-  //   jest.spyOn(global, 'fetch').mockRejectedValue({
-  //     json: async () => (fail),
-  //   });
-  // } catch (error) {
-  //   const { history } = renderWithRouterAndRedux(<App />, initialState, "/game")
-  //   const loading = screen.getByText(/carregando/i)
-  //   expect(loading).toBeInTheDocument();
-  //   const emailEl = screen.getByTestId('input-gravatar-email');
-  //   expect(emailEl).toBeInTheDocument();
-  // }
 
 })

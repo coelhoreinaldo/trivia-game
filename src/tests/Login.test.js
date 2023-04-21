@@ -82,7 +82,7 @@ describe('the login page', () => {
     expect(history.location.pathname).toBe('/config');
   });
 
-  it('should fail', async () => {
+  it('should fail if token expires', async () => {
     jest.spyOn(global, 'fetch').mockRejectedValue({
       json: async () => (fail),
     });
