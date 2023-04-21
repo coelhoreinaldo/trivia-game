@@ -37,9 +37,8 @@ class Login extends Component {
       history.push('/');
     } else {
       localStorage.setItem('token', data.token);
+      history.push('/game');
     }
-
-    history.push('/game');
   };
 
   handleConfigButton = () => {

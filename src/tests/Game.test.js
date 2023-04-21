@@ -4,24 +4,23 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
 import mockLocalStorage from './helpers/rankingMock';
-import { mockApiData } from './helpers/apiMock';
+import { fail, mockApiData } from './helpers/apiMock';
 
+const initialState = {
+  player: {
+    gravatarEmail: '',
+    name: '',
+    score: 40,
+    assertions: 1
+  }
+}
 
 describe('the game page', () => {
-  const initialState = {
-    player: {
-      gravatarEmail: '',
-      name: '',
-      score: 40,
-      assertions: 1
-    }
-  }
 
   beforeEach(() => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: async () => (mockApiData),
     });
-
 
   });
 
@@ -75,4 +74,77 @@ describe('the game page', () => {
     const question1Again = screen.queryByText(/in terraria, what does the wall/i);
     expect(question1Again).not.toBeInTheDocument()
   })
+
+  it('should redirect to feedbacks page when show the last question', async () => {
+    const { history } = renderWithRouterAndRedux(<App />, initialState, "/game")
+    const question1 = await screen.findByText(/in terraria, what does the wall/i);
+    expect(question1).toBeInTheDocument();
+    const correctAnswer = screen.getByRole('button', { name: /picksaw/i });
+    userEvent.click(correctAnswer);
+    const nextBtn = await screen.findByTestId('btn-next');
+    userEvent.click(nextBtn)
+
+    const question2 = screen.getByRole('button', { name: /orendo/i });
+    userEvent.click(question2);
+    const nextBtn2 = await screen.findByTestId('btn-next');
+    userEvent.click(nextBtn2)
+
+    const question3 = screen.getByRole('button', { name: /radiation/i });
+    userEvent.click(question3);
+    const nextBtn3 = await screen.findByTestId('btn-next');
+    userEvent.click(nextBtn3)
+
+    const question4 = screen.getByRole('button', { name: /every villain is lemonade/i });
+    userEvent.click(question4);
+    const nextBtn4 = await screen.findByTestId('btn-next');
+    userEvent.click(nextBtn4)
+
+    const question5 = screen.getByRole('button', { name: /sayori/i });
+    userEvent.click(question5);
+    const nextBtn5 = await screen.findByTestId('btn-next');
+    userEvent.click(nextBtn5)
+
+    expect(history.location.pathname).toBe('/feedback')
+  })
+  // it('should show the expected text when the times out', async () => {
+  //   jest.setTimeout(25000)
+  //   jest.useFakeTimers()
+  //   renderWithRouterAndRedux(<App />, initialState, "/game")
+
+
+  //   await waitFor(() => screen.getByRole('heading', { name: /o tempo acabou/i }))
+  //   const timeOut = await screen.findByRole('heading', { name: /o tempo acabou/i })
+  //   expect(timeOut).toBeInTheDocument();
+
+
+  // })
 });
+
+describe('the game page', () => {
+  it('should redirect to home if token expire', async () => {
+    jest.spyOn(global, 'fetch').mockRejectedValue({
+      json: async () => (fail),
+    });
+
+    const { history } = renderWithRouterAndRedux(<App />, initialState, "/game")
+    const loading = screen.getByText(/carregando/i)
+    expect(loading).toBeInTheDocument();
+    const emailEl = await screen.findByTestId("input-gravatar-email")
+    expect(emailEl).toBeInTheDocument();
+
+    expect(history.location.pathname).toBe('/')
+  })
+
+  // try {
+  //   jest.spyOn(global, 'fetch').mockRejectedValue({
+  //     json: async () => (fail),
+  //   });
+  // } catch (error) {
+  //   const { history } = renderWithRouterAndRedux(<App />, initialState, "/game")
+  //   const loading = screen.getByText(/carregando/i)
+  //   expect(loading).toBeInTheDocument();
+  //   const emailEl = screen.getByTestId('input-gravatar-email');
+  //   expect(emailEl).toBeInTheDocument();
+  // }
+
+})

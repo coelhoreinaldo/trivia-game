@@ -3,7 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
-import { mockApiData } from './helpers/apiMock';
+import { fail, mockApiData } from './helpers/apiMock';
 
 const initialState = {
   name: '',
@@ -77,4 +77,16 @@ describe('the login page', () => {
 
     expect(history.location.pathname).toBe('/config');
   });
+
+  it('should fail', () => {
+    jest.spyOn(global, 'fetch').mockRejectedValue({
+      json: async () => (fail),
+    });
+    const { history } = renderWithRouterAndRedux(<App />);
+
+    const buttonEl = screen.getByTestId('btn-play');
+    userEvent.click(buttonEl)
+
+    expect(history.location.pathname).toBe('/')
+  })
 });
