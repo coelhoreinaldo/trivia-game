@@ -1,0 +1,81 @@
+
+html {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient( to right, rgb(16, 240, 217), rgb(229, 229, 229), rgb(229, 229, 229), rgb(16, 240, 217) )
+}
+
+h1 {
+
+}
+
+.cointainer-page-ranking {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.container-users-ranking {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 100%;
+  align-items: center;
+}
+
+.container-user {
+  border: 2px solid rgba(99, 95, 95, 0.211);
+  border-radius: 40px;
+  display: flex;
+  width: 24%;
+  height: 40px;
+  margin: 7px 0;
+  background-color: rgb(255, 251, 251);
+  box-shadow: 6px 3px 3px rgb(202, 198, 198)
+}
+
+.img-user {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 5px 5px 5px 5px;
+}
+
+.name-score-user {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+}
+
+.score-user {
+  font-size: large;
+  font-weight: 800;
+  padding-left: 40px;
+  color: rgb(218, 233, 50);
+}
+
+.pts {
+  font-size: medium;
+  margin-left: 3px;
+}
+
+.ranking-btn {
+  margin-top: 20px;
+  border-radius: 4px;
+  width: 180px;
+  height: 30px;
+  border: 1.5px solid black;
+  /* border: none; */
+  cursor: pointer;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 700;
+  background-color: #16eb9d;
+}
+
+.ranking-btn:hover {
+  background-color: #05ffff;
+  border: none;
+  /* border: 2px solid rgba(185, 163, 163, 0.427) */
+}
