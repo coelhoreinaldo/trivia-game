@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getEmail } from '../redux/actions/action';
+import './Login.css';
 
 const TOKEN_EXPIRED = 3;
 
@@ -49,45 +50,48 @@ class Login extends Component {
   render() {
     const { email, name, loading } = this.state;
     return (
-      <form onSubmit={ this.handleSubmit }>
-        <label htmlFor="">
-          Email
-          <input
-            type="email"
-            value={ email }
-            name="email"
-            onChange={ this.handleChange }
-            data-testid="input-gravatar-email"
-          />
-        </label>
-        <label
-          htmlFor=""
-        >
-          Nome
-          <input
-            type="text"
-            value={ name }
-            name="name"
-            onChange={ this.handleChange }
-            data-testid="input-player-name"
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.handleConfigButton }
-        >
-          Configuração
-
-        </button>
-        <button
-          type="submit"
-          disabled={ !name || !email || loading }
-          data-testid="btn-play"
-        >
-          {loading ? '...' : 'Play'}
-        </button>
-      </form>
+      <div className="container">
+        <form className="form" onSubmit={ this.handleSubmit }>
+          <label className="label" htmlFor="">
+            Email
+            <input
+              className="input"
+              type="email"
+              value={ email }
+              name="email"
+              onChange={ this.handleChange }
+              data-testid="input-gravatar-email"
+            />
+          </label>
+          <label className="label" htmlFor="">
+            Nome
+            <input
+              className="input"
+              type="text"
+              value={ name }
+              name="name"
+              onChange={ this.handleChange }
+              data-testid="input-player-name"
+            />
+          </label>
+          <button
+            className="button btn-settings"
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.handleConfigButton }
+          >
+            Configuração
+          </button>
+          <button
+            className="button btn-play"
+            type="submit"
+            disabled={ !name || !email || loading }
+            data-testid="btn-play"
+          >
+            {loading ? '...' : 'Play'}
+          </button>
+        </form>
+      </div>
     );
   }
 }
