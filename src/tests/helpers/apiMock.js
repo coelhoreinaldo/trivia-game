@@ -4,6 +4,13 @@ export const responseCode = {
     token: "ced88b597cbf63a72139ddeb76bd8cd2cffbb54def9d90bc13b0cf52bba84cf3"
 }
 
+export const fail = {
+  "response_code": 3,
+  "results": [
+    
+  ]
+}
+
 export const mockApiData = {
   "response_code": 0,
   "results": [

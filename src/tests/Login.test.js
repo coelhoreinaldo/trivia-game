@@ -3,7 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
-import { mockApiData } from './helpers/apiMock';
+import { fail, mockApiData } from './helpers/apiMock';
 
 const initialState = {
   name: '',
@@ -44,11 +44,10 @@ describe('the login page', () => {
     expect(buttonEl2).toBeEnabled();
   });
 
-  it('should make a fetch when the button play is clicked', () => {
+  it('should make a fetch when the button play is clicked', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
-      json: async () => (mockApiData)
-    })
-
+      json: async () => (mockApiData),
+    });
     const { history } = renderWithRouterAndRedux(<App />);
 
     const emailEl = screen.getByTestId(emailTestId);
@@ -60,6 +59,11 @@ describe('the login page', () => {
     const buttonEl = screen.getByTestId('btn-play');
     userEvent.click(buttonEl);
     expect(fetch).toHaveBeenCalledTimes(1)
+
+    const questionCategoryEl = await screen.findByTestId('question-category')
+    expect(questionCategoryEl).toBeInTheDocument();
+
+    expect(history.location.pathname).toBe('/game')
 
   });
 
@@ -77,4 +81,26 @@ describe('the login page', () => {
 
     expect(history.location.pathname).toBe('/config');
   });
+
+  it('should fail if token expires', async () => {
+    jest.spyOn(global, 'fetch').mockRejectedValue({
+      json: async () => (fail),
+    });
+    const { history } = renderWithRouterAndRedux(<App />);
+
+
+    const emailEl = screen.getByTestId(emailTestId);
+    const nameEl = screen.getByTestId(nameTestId);
+
+    userEvent.type(emailEl, email);
+    userEvent.type(nameEl, 'Teste');
+
+    const buttonEl = screen.getByTestId('btn-play');
+    userEvent.click(buttonEl)
+
+    const loginPage = await screen.findByTestId(emailTestId)
+    expect(loginPage).toBeInTheDocument();
+    expect(history.location.pathname).not.toBe('/game')
+    expect(history.location.pathname).toBe('/')
+  })
 });

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getEmail } from '../redux/actions/action';
 import './Login.css';
 
-const TOKEN_EXPIRED = 3;
+// const TOKEN_EXPIRED = 3;
 
 class Login extends Component {
   state = {
@@ -28,18 +28,27 @@ class Login extends Component {
     const { email, name } = this.state;
     const { dispatch, history } = this.props;
 
-    dispatch(getEmail(email, name));
-    const response = await fetch('https://opentdb.com/api_token.php?command=request');
-    const data = await response.json();
-
-    if (data.response_code === TOKEN_EXPIRED) {
+    try {
+      dispatch(getEmail(email, name));
+      const response = await fetch('https://opentdb.com/api_token.php?command=request');
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      history.push('/game');
+    } catch (error) {
       localStorage.removeItem('token');
       history.push('/');
-    } else {
-      localStorage.setItem('token', data.token);
     }
+    // dispatch(getEmail(email, name));
+    // const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    // const data = await response.json();
 
-    history.push('/game');
+    // if (data.response_code === TOKEN_EXPIRED) {
+    //   localStorage.removeItem('token');
+    //   history.push('/');
+    // } else {
+    //   localStorage.setItem('token', data.token);
+    //   history.push('/game');
+    // }
   };
 
   handleConfigButton = () => {
