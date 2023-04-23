@@ -165,12 +165,12 @@ class Game extends Component {
             }
 
           </div>
-          <div data-testid="question-text">
-            {
-              questions[currentQuestionIndex].question
-            }
-
-          </div>
+          <div
+            data-testid="question-text"
+            dangerouslySetInnerHTML={ {
+              __html: questions[currentQuestionIndex].question,
+            } }
+          />
           {allAnswers.map((answer, index) => (
             <div key={ index } data-testid="answer-options">
               <button
