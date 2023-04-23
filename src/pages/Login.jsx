@@ -59,7 +59,7 @@ class Login extends Component {
   render() {
     const { email, name, loading } = this.state;
     return (
-      <div className="container">
+      <div className="login-container">
         <form className="form" onSubmit={ this.handleSubmit }>
           <label className="label" htmlFor="">
             Email

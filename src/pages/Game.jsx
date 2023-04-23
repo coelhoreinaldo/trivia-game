@@ -114,12 +114,12 @@ class Game extends Component {
   };
 
   getAnswerClassName = (answer, correctAnswer) => {
-    const { selectedAnswer } = this.state;
+    const { selectedAnswer, timer } = this.state;
 
-    if (!selectedAnswer) {
-      return '';
+    if (selectedAnswer || timer === 0) {
+      return answer === correctAnswer ? 'green' : 'red';
     }
-    return answer === correctAnswer ? 'green' : 'red';
+    return '';
   };
 
   handleNextClick = () => {
@@ -143,7 +143,7 @@ class Game extends Component {
       allAnswers,
       timer, currentQuestionIndex, selectedAnswer } = this.state;
 
-    const showNextButton = selectedAnswer !== null;
+    const showNextButton = selectedAnswer !== null || timer === 0;
 
     if (questions.length === 0) {
       return <p>Carregando...</p>;
@@ -153,21 +153,24 @@ class Game extends Component {
       .getAnswerClassName(answer, questions[currentQuestionIndex].correct_answer);
 
     return (
-      <div>
+      <div className="container">
         <Header />
-        <section>
-          <div data-testid="question-category">
+        <section className="game-question">
+          <div
+            data-testid="question-category"
+            className="question-category"
+          >
             {
               questions[currentQuestionIndex].category
             }
 
           </div>
-          <div data-testid="question-text">
-            {
-              questions[currentQuestionIndex].question
-            }
-
-          </div>
+          <div
+            data-testid="question-text"
+            dangerouslySetInnerHTML={ {
+              __html: questions[currentQuestionIndex].question,
+            } }
+          />
           {allAnswers.map((answer, index) => (
             <div key={ index } data-testid="answer-options">
               <button
