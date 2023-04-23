@@ -1,4 +1,4 @@
-.container {
+.login-container {
   align-items: center;
   background-image: url('https://images5.alphacoders.com/436/436582.jpg');
   background-position: center;
@@ -10,7 +10,7 @@
   min-height: 100vh;
 }
 
-.form {
+.login-container .form {
   align-items: center;
   background-color: white;
   border-radius: 8px;
@@ -18,17 +18,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 16px;
   padding: 2rem;
 }
 
-.label {
+.login-container .label {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
   width: 100%;
 }
 
-.input {
+.login-container .input {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
@@ -36,7 +37,7 @@
   width: 100%;
 }
 
-.button {
+.login-container .button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -45,18 +46,17 @@
   padding: 0.5rem 1rem;
 }
 
-.btn-settings {
+.login-container .btn-settings {
   background-color: #007bff;
   color: white;
-  margin-right: 1rem;
 }
 
-.btn-play {
+.login-container .btn-play {
   background-color: #28a745;
   color: white;
 }
 
-.button:disabled {
+.login-container .button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }

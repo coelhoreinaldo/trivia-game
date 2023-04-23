@@ -1,3 +1,40 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+}
+
+.game-question {
+  align-items: center;
+  background-color: darkblue;
+  border-radius: 8px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  padding: 24px;
+  width: 460px;
+}
+
+.game-question .question-category {
+  border-bottom: 1px solid aquamarine;
+  font-size: xx-large;
+  font-weight: 600;
+  text-align: center;
+}
+
+.game-question button {
+  padding: 4px;
+}
+
+.game-question button:disabled {
+  background-color: white;
+}
+
 .green {
   border-color: rgb(6, 240, 15);
   border-style: solid;
