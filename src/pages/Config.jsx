@@ -19,6 +19,13 @@ class Config extends Component {
     this.setState({ categories: data.trivia_categories });
   };
 
+  handleCategory = ({ target }) => {
+    const { dispatch } = this.props;
+    const { categories } = this.state;
+    const findId = categories.find((category) => category.name === target.value);
+    dispatch(getCategory(findId.id));
+  };
+
   render() {
     const { dispatch } = this.props;
     const { categories } = this.state;
@@ -32,7 +39,7 @@ class Config extends Component {
           <label>
             Categoria
             <select
-              onChange={ ({ target }) => dispatch(getCategory(target.value)) }
+              onChange={ this.handleCategory }
             >
               {categories.map((category) => (
                 <option key={ category.id }>
