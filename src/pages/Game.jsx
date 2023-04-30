@@ -63,12 +63,12 @@ class Game extends Component {
 
   fetchQuestions = async () => {
     const { history } = this.props;
+    // const { category, difficulty, type } = this.props;
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(
-        `https://opentdb.com/api.php?amount=5&token=${token}`,
-      );
+      // const response = await fetch(`https://opentdb.com/api.php?amount=5&category=${category}&difficulty=${difficulty}&type=${type}&token=${token}`,);
+      const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
       const data = await response.json();
       this.setState(({ questions: data.results }), () => this.randomAnswers());
     } catch (error) {
