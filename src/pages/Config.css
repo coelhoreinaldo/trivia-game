@@ -1,0 +1,21 @@
+.config-container .form {
+  width: 100%;
+}
+
+.config-container select {
+  border: 1px solid blue;
+  width: 100%;
+}
+
+.config-container .select-container {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+@media only screen and ( min-width : 768px ) {
+
+  .config-container .form {
+    max-width: 450px;
+  }
+}

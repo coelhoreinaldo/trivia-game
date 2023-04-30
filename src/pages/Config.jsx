@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCategory, getDifficulty, getQuestionType,
   resetSettings } from '../redux/actions/action';
+import './Config.css';
 
 class Config extends Component {
   state = {
@@ -51,9 +52,13 @@ class Config extends Component {
   render() {
     const { categories, selectedCategory, selectedDifficulty, selectedType } = this.state;
     return (
-      <div>
-        <h1 data-testid="settings-title">Settings</h1>
-        <form onSubmit={ this.handleSubmit } onReset={ this.handleLeave }>
+      <div className="form-container config-container">
+        <form
+          onSubmit={ this.handleSubmit }
+          onReset={ this.handleLeave }
+          className="form"
+        >
+          <h1 data-testid="settings-title">Settings</h1>
           <label>
             Category
             <select
@@ -67,31 +72,42 @@ class Config extends Component {
                 </option>))}
             </select>
           </label>
-          <label>
-            Difficulty
+          <div className="select-container">
+            <label htmlFor="difficulty">
+              Difficulty
+            </label>
             <select
               onChange={ this.handleChange }
               name="selectedDifficulty"
               value={ selectedDifficulty }
+              id="difficulty"
             >
               <option>easy</option>
               <option>medium</option>
               <option>hard</option>
             </select>
-          </label>
-          <label>
-            Type
+            <label htmlFor="type">
+              Type
+            </label>
             <select
               onChange={ this.handleChange }
               name="selectedType"
               value={ selectedType }
+              id="type"
             >
               <option>multiple</option>
               <option>boolean</option>
             </select>
-          </label>
-          <button type="submit">Save</button>
-          <button type="reset">Reset</button>
+
+          </div>
+          <section className="buttons-container">
+            <button className="button-64" type="submit">
+              <span>Save</span>
+            </button>
+            <button className="button-64" type="reset">
+              <span>Reset</span>
+            </button>
+          </section>
         </form>
       </div>
     );

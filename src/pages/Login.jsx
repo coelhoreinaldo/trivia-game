@@ -49,7 +49,7 @@ class Login extends Component {
   render() {
     const { email, name, loading } = this.state;
     return (
-      <div className="login-container">
+      <div className="form-container login-container">
         <form className="form" onSubmit={ this.handleSubmit }>
           <img src={ logo } alt="logo" className="trivia-logo" />
           <div className="input-container">
