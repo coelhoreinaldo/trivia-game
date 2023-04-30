@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './Ranking.css';
 
 class Ranking extends Component {
   state = {

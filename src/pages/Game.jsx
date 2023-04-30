@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -39,27 +40,15 @@ class Game extends Component {
 
   randomAnswers = () => {
     const { currentQuestionIndex, questions } = this.state;
-    const { history } = this.props;
 
     const question = questions[currentQuestionIndex];
 
-    if (question) {
-      this.setState({
-        allAnswers: [
-          ...question.incorrect_answers,
-          question.correct_answer,
-        ].sort(() => Math.random() - RANDOM_SORT),
-      });
-    } else {
-      history.push('/');
-    }
-    // Pra mim esse seria o certo, mas o cypress reprova????
-    // this.setState({
-    //   allAnswers: [
-    //     ...question.incorrect_answers,
-    //     question.correct_answer,
-    //   ].sort(() => Math.random() - RANDOM_SORT),
-    // });
+    this.setState({
+      allAnswers: [
+        ...question.incorrect_answers,
+        question.correct_answer,
+      ].sort(() => Math.random() - RANDOM_SORT),
+    });
   };
 
   handleTimer = () => {
@@ -74,19 +63,6 @@ class Game extends Component {
 
   fetchQuestions = async () => {
     const { history } = this.props;
-
-    // const token = localStorage.getItem('token');
-    // const response = await fetch(
-    //   `https://opentdb.com/api.php?amount=5&token=${token}`,
-    // );
-    // const data = await response.json();
-
-    // if (data.response_code === TOKEN_EXPIRED) {
-    //   localStorage.removeItem('token');
-    //   history.push('/');
-    // } else {
-    //   this.setState(({ questions: data.results }), () => this.randomAnswers());
-    // }
 
     try {
       const token = localStorage.getItem('token');
@@ -177,14 +153,16 @@ class Game extends Component {
                 className={ answerClassName(answer) }
                 onClick={ () => this.handleAnswerClick(answer) }
                 disabled={ timer === 0 || selectedAnswer }
+                dangerouslySetInnerHTML={ {
+                  __html: answer,
+                } }
                 data-testid={
                   answer === questions[currentQuestionIndex].correct_answer
                     ? 'correct-answer'
                     : `wrong-answer-${index}`
                 }
-              >
-                {answer}
-              </button>
+                aria-label={ answer }
+              />
             </div>
           ))}
           {showNextButton && (
