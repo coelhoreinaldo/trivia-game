@@ -5,3 +5,4 @@ export const RESET_USER = 'RESET_USER';
 export const GET_CATEGORY = 'GET_CATEGORY';
 export const GET_DIFFICULTY = 'GET_DIFFICULTY';
 export const GET_QUESTION_TYPE = 'GET_QUESTION_TYPE';
+export const RESET_SETTINGS = 'RESET_SETTINGS';

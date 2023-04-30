@@ -1,5 +1,5 @@
 import { GET_ASSERTIONS, GET_CATEGORY, GET_DIFFICULTY, GET_QUESTION_TYPE,
-  GET_USER, INCREMENT_SCORE, RESET_USER } from './typeActions';
+  GET_USER, INCREMENT_SCORE, RESET_SETTINGS, RESET_USER } from './typeActions';
 
 export const getEmail = (email, name) => ({
   type: GET_USER,
@@ -34,4 +34,8 @@ export const getDifficulty = (payload) => ({
 export const getQuestionType = (payload) => ({
   type: GET_QUESTION_TYPE,
   payload,
+});
+
+export const resetSettings = () => ({
+  type: RESET_SETTINGS,
 });

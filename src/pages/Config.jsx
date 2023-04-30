@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getCategory, getDifficulty, getQuestionType } from '../redux/actions/action';
+import { getCategory, getDifficulty, getQuestionType,
+  resetSettings } from '../redux/actions/action';
 
 class Config extends Component {
   state = {
     categories: [],
+    selectedCategory: 'General Knowledge',
+    selectedDifficulty: 'easy',
+    selectedType: 'multiple',
   };
 
   componentDidMount() {
@@ -19,27 +22,44 @@ class Config extends Component {
     this.setState({ categories: data.trivia_categories });
   };
 
-  handleCategory = ({ target }) => {
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  };
+
+  handleSubmit = (event) => {
+    const { history } = this.props;
+    event.preventDefault();
+    const { selectedCategory, selectedDifficulty, selectedType, categories } = this.state;
     const { dispatch } = this.props;
-    const { categories } = this.state;
-    const findId = categories.find((category) => category.name === target.value);
+    const findId = categories.find((category) => category.name === selectedCategory);
     dispatch(getCategory(findId.id));
+    dispatch(getDifficulty(selectedDifficulty));
+    dispatch(getQuestionType(selectedType));
+
+    history.push('/');
+  };
+
+  handleLeave = () => {
+    const { history, dispatch } = this.props;
+
+    dispatch(resetSettings());
+
+    history.push('/');
   };
 
   render() {
-    const { dispatch } = this.props;
-    const { categories } = this.state;
+    const { categories, selectedCategory, selectedDifficulty, selectedType } = this.state;
     return (
       <div>
-        <Link to="/">
-          olá
-        </Link>
-        <h1 data-testid="settings-title">Configurações</h1>
-        <section>
+        <h1 data-testid="settings-title">Settings</h1>
+        <form onSubmit={ this.handleSubmit } onReset={ this.handleLeave }>
           <label>
-            Categoria
+            Category
             <select
-              onChange={ this.handleCategory }
+              onChange={ this.handleChange }
+              name="selectedCategory"
+              value={ selectedCategory }
             >
               {categories.map((category) => (
                 <option key={ category.id }>
@@ -48,9 +68,11 @@ class Config extends Component {
             </select>
           </label>
           <label>
-            Dificuldade
+            Difficulty
             <select
-              onChange={ ({ target }) => dispatch(getDifficulty(target.value)) }
+              onChange={ this.handleChange }
+              name="selectedDifficulty"
+              value={ selectedDifficulty }
             >
               <option>easy</option>
               <option>medium</option>
@@ -58,15 +80,19 @@ class Config extends Component {
             </select>
           </label>
           <label>
-            Tipo
+            Type
             <select
-              onChange={ ({ target }) => dispatch(getQuestionType(target.value)) }
+              onChange={ this.handleChange }
+              name="selectedType"
+              value={ selectedType }
             >
               <option>multiple</option>
               <option>boolean</option>
             </select>
           </label>
-        </section>
+          <button type="submit">Save</button>
+          <button type="reset">Reset</button>
+        </form>
       </div>
     );
   }
@@ -74,6 +100,9 @@ class Config extends Component {
 
 Config.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect()(Config);
