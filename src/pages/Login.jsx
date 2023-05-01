@@ -84,7 +84,7 @@ class Login extends Component {
               onClick={ this.handleConfigButton }
             >
               <span className="text">
-                Configuração
+                Settings
               </span>
             </button>
             <button

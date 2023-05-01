@@ -147,7 +147,7 @@ class Game extends Component {
             <h3 className="timer">
               <i className="ri-timer-line" />
               <span>
-                {timer !== 0 ? timer : 'O tempo acabou'}
+                {timer !== 0 ? timer : 'THE TIME IS OVER'}
               </span>
             </h3>
             {showNextButton && (
