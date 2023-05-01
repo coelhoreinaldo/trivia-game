@@ -16,9 +16,11 @@ class Header extends Component {
       <header className="header">
         <section className="profile">
           <img src={ `https://www.gravatar.com/avatar/${emailToLink}` } alt="userIMG" data-testid="header-profile-picture" />
-          <p data-testid="header-player-name">{name}</p>
+          <div>
+            <p data-testid="header-player-name">{name}</p>
+            <strong data-testid="header-score">{`Score: ${score}`}</strong>
+          </div>
         </section>
-        <p data-testid="header-score">{`Score: ${score}`}</p>
       </header>
     );
   }
