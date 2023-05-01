@@ -7,6 +7,8 @@
 
 html {
   background: linear-gradient(133deg, rgb(21, 74, 189) 0.1%, rgb(26, 138, 211) 51.5%, rgb(72, 177, 234) 100.2%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   font-family: Verdana , Geneva , Tahoma , sans-serif;
 }
 

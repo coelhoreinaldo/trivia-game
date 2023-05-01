@@ -62,3 +62,8 @@ p, h1, h2, h3, h4, h5, h6 {
   9. Create a root stacking context
 */
 
+/* stylelint-disable-next-line selector-max-specificity */
+#root {
+  height: 100vh;
+  isolation: isolate;
+}

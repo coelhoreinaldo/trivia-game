@@ -127,52 +127,56 @@ class Game extends Component {
     return (
       <>
         <Header />
-        <section>
-          <div
-            data-testid="question-category"
-          >
-            {
-              questions[currentQuestionIndex].category
-            }
-
-          </div>
-          <div
-            data-testid="question-text"
-            dangerouslySetInnerHTML={ {
-              __html: questions[currentQuestionIndex].question,
-            } }
-          />
-          {allAnswers.map((answer, index) => (
-            <div key={ index } data-testid="answer-options">
-              <button
-                className={ `${this.answerClassName(answer)} button-64` }
-                onClick={ () => this.handleAnswerClick(answer) }
-                disabled={ timer === 0 || selectedAnswer }
-                dangerouslySetInnerHTML={ {
-                  __html: `<span class="my-class">${answer}</span>`,
-                } }
-                data-testid={
-                  answer === questions[currentQuestionIndex].correct_answer
-                    ? 'correct-answer'
-                    : `wrong-answer-${index}`
-                }
-                aria-label={ answer }
-              />
-            </div>
-          ))}
-          {showNextButton && (
-            <button
-              data-testid="btn-next"
-              onClick={ this.handleNextClick }
-              className="button-64"
+        <main className="main">
+          <section className="question-container">
+            <div
+              data-testid="question-category"
             >
-              <span>Next</span>
-            </button>
-          )}
-        </section>
-        <section>
-          <h1>{timer !== 0 ? timer : 'O tempo acabou'}</h1>
-        </section>
+              {
+                questions[currentQuestionIndex].category
+              }
+
+            </div>
+            <div
+              data-testid="question-text"
+              dangerouslySetInnerHTML={ {
+                __html: questions[currentQuestionIndex].question,
+              } }
+            />
+            <section>
+              <h1>{timer !== 0 ? timer : 'O tempo acabou'}</h1>
+            </section>
+          </section>
+          <section className="answers-container">
+            {allAnswers.map((answer, index) => (
+              <div key={ index } data-testid="answer-options">
+                <button
+                  className={ `${this.answerClassName(answer)} button-64 answer-options` }
+                  onClick={ () => this.handleAnswerClick(answer) }
+                  disabled={ timer === 0 || selectedAnswer }
+                  dangerouslySetInnerHTML={ {
+                    __html: `<span class="my-class">${answer}</span>`,
+                  } }
+                  data-testid={
+                    answer === questions[currentQuestionIndex].correct_answer
+                      ? 'correct-answer'
+                      : `wrong-answer-${index}`
+                  }
+                  aria-label={ answer }
+                />
+              </div>
+            ))}
+            {showNextButton && (
+              <button
+                data-testid="btn-next"
+                onClick={ this.handleNextClick }
+                className="button-64"
+              >
+                <span>Next</span>
+              </button>
+            )}
+          </section>
+        </main>
       </>
     );
   }
