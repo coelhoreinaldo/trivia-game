@@ -1,10 +1,8 @@
-import { GET_CATEGORY, GET_DIFFICULTY,
-  GET_QUESTION_TYPE, RESET_SETTINGS } from '../actions/typeActions';
+import { GET_CATEGORY, GET_DIFFICULTY, RESET_SETTINGS } from '../actions/typeActions';
 
 const INITIAL_STATE = {
   category: 0,
   difficulty: '',
-  questionType: '',
 };
 
 export const config = (state = INITIAL_STATE, action) => {
@@ -20,16 +18,10 @@ export const config = (state = INITIAL_STATE, action) => {
       ...state,
       difficulty: payload,
     };
-  case GET_QUESTION_TYPE:
-    return {
-      ...state,
-      questionType: payload,
-    };
   case RESET_SETTINGS:
     return {
       category: 0,
       difficulty: '',
-      questionType: '',
     };
   default:
     return state;

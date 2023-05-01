@@ -1,4 +1,4 @@
-import { GET_ASSERTIONS, GET_CATEGORY, GET_DIFFICULTY, GET_QUESTION_TYPE,
+import { GET_ASSERTIONS, GET_CATEGORY, GET_DIFFICULTY,
   GET_USER, INCREMENT_SCORE, RESET_SETTINGS, RESET_USER } from './typeActions';
 
 export const getEmail = (email, name) => ({
@@ -28,11 +28,6 @@ export const getCategory = (payload) => ({
 
 export const getDifficulty = (payload) => ({
   type: GET_DIFFICULTY,
-  payload,
-});
-
-export const getQuestionType = (payload) => ({
-  type: GET_QUESTION_TYPE,
   payload,
 });
 

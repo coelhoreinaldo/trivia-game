@@ -8,7 +8,6 @@ import { getAssertions, incrementScore } from '../redux/actions/action';
 import calculateScore from '../utils/calculateScore';
 
 const RANDOM_SORT = 0.5;
-// const TOKEN_EXPIRED = 3;
 
 class Game extends Component {
   constructor(props) {
@@ -63,11 +62,11 @@ class Game extends Component {
 
   fetchQuestions = async () => {
     const { history } = this.props;
-    const { category, difficulty, questionType } = this.props;
+    const { category, difficulty } = this.props;
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://opentdb.com/api.php?amount=5&category=${category}&difficulty=${difficulty}&type=${questionType}&token=${token}`);
+      const response = await fetch(`https://opentdb.com/api.php?amount=5&category=${category}&difficulty=${difficulty}&token=${token}`);
       const data = await response.json();
       this.setState(({ questions: data.results }), () => this.randomAnswers());
     } catch (error) {
@@ -188,13 +187,11 @@ Game.propTypes = {
   dispatch: PropTypes.func.isRequired,
   category: PropTypes.number.isRequired,
   difficulty: PropTypes.string.isRequired,
-  questionType: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   category: state.config.category,
   difficulty: state.config.difficulty,
-  questionType: state.config.questionType,
 });
 
 export default connect(mapStateToProps)(Game);
