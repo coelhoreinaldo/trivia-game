@@ -55,35 +55,41 @@ class Config extends Component {
           onReset={ this.handleLeave }
           className="form"
         >
-          <h1 data-testid="settings-title">Settings</h1>
-          <label htmlFor="selectedCategory">
-            Category
-          </label>
+          <h1 data-testid="settings-title" className="settings-title">Settings</h1>
+          <div className="select-container">
 
-          <select
-            onChange={ this.handleChange }
-            name="selectedCategory"
-            value={ selectedCategory }
-            id="selectedCategory"
-          >
-            {categories.map((category) => (
-              <option key={ category.id }>
-                {category.name}
-              </option>))}
-          </select>
-          <label htmlFor="difficulty">
-            Difficulty
-          </label>
-          <select
-            onChange={ this.handleChange }
-            name="selectedDifficulty"
-            value={ selectedDifficulty }
-            id="difficulty"
-          >
-            <option>easy</option>
-            <option>medium</option>
-            <option>hard</option>
-          </select>
+            <label htmlFor="selectedCategory">
+              Category
+            </label>
+            <select
+              onChange={ this.handleChange }
+              name="selectedCategory"
+              value={ selectedCategory }
+              id="selectedCategory"
+            >
+              {categories.map((category) => (
+                <option key={ category.id }>
+                  {category.name}
+                </option>))}
+            </select>
+          </div>
+          <div className="select-container">
+
+            <label htmlFor="difficulty">
+              Difficulty
+            </label>
+            <select
+              onChange={ this.handleChange }
+              name="selectedDifficulty"
+              value={ selectedDifficulty }
+              id="difficulty"
+            >
+              <option>easy</option>
+              <option>medium</option>
+              <option>hard</option>
+            </select>
+          </div>
+
           <section className="buttons-container">
             <button className="button-64" type="submit">
               <span>Save</span>
