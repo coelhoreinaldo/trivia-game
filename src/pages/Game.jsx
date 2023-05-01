@@ -87,15 +87,6 @@ class Game extends Component {
     }
   };
 
-  getAnswerClassName = (answer, correctAnswer) => {
-    const { selectedAnswer, timer } = this.state;
-
-    if (selectedAnswer || timer === 0) {
-      return answer === correctAnswer ? 'green' : 'red';
-    }
-    return '';
-  };
-
   handleNextClick = () => {
     const { currentQuestionIndex, questions } = this.state;
     const { history } = this.props;
@@ -112,6 +103,16 @@ class Game extends Component {
     );
   };
 
+  answerClassName(answer) {
+    const { selectedAnswer, questions, currentQuestionIndex, timer } = this.state;
+
+    if (selectedAnswer || timer === 0) {
+      return answer === questions[currentQuestionIndex].correct_answer ? 'green' : 'red';
+    }
+
+    return '';
+  }
+
   render() {
     const { questions,
       allAnswers,
@@ -123,16 +124,12 @@ class Game extends Component {
       return <p>Carregando...</p>;
     }
 
-    const answerClassName = (answer) => this
-      .getAnswerClassName(answer, questions[currentQuestionIndex].correct_answer);
-
     return (
-      <div className="container">
+      <div>
         <Header />
-        <section className="game-question">
+        <section>
           <div
             data-testid="question-category"
-            className="question-category"
           >
             {
               questions[currentQuestionIndex].category
@@ -148,11 +145,11 @@ class Game extends Component {
           {allAnswers.map((answer, index) => (
             <div key={ index } data-testid="answer-options">
               <button
-                className={ answerClassName(answer) }
+                className={ `${this.answerClassName(answer)} button-64` }
                 onClick={ () => this.handleAnswerClick(answer) }
                 disabled={ timer === 0 || selectedAnswer }
                 dangerouslySetInnerHTML={ {
-                  __html: answer,
+                  __html: `<span class="my-class">${answer}</span>`,
                 } }
                 data-testid={
                   answer === questions[currentQuestionIndex].correct_answer
@@ -167,8 +164,9 @@ class Game extends Component {
             <button
               data-testid="btn-next"
               onClick={ this.handleNextClick }
+              className="button-64"
             >
-              Next
+              <span>Next</span>
             </button>
           )}
         </section>

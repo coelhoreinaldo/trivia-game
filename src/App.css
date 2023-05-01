@@ -78,7 +78,7 @@ ref=beautifulboxshadow-bottom - button por GreenLight + ajustes meus */
 }
 
 .button-64:disabled span {
-  background-color: rgb(55, 55, 55);
+  background-color: rgb(54, 54, 54);
 }
 
 .button-64:not( :disabled ):hover span {
