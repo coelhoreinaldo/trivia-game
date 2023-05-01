@@ -17,6 +17,10 @@
   width: 100%;
 }
 
+.login-container .button-64:disabled span {
+  background-color: rgb(54, 54, 54);
+}
+
 
 @media only screen and ( min-width : 768px ) {
 

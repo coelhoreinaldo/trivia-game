@@ -46,9 +46,8 @@ ref=beautifulboxshadow-bottom - button por GreenLight + ajustes meus */
   align-items: center;
   background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
   border: 0;
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-  box-sizing: border-box;
   color: white;
   display: flex;
   justify-content: center;
@@ -56,7 +55,6 @@ ref=beautifulboxshadow-bottom - button por GreenLight + ajustes meus */
   text-decoration: none;
   touch-action: manipulation;
   user-select: none;
-  white-space: nowrap;
   width: 100%;
 }
 
@@ -71,16 +69,12 @@ ref=beautifulboxshadow-bottom - button por GreenLight + ajustes meus */
 .button-64 span {
   align-items: center;
   background-color: rgb(5, 6, 45);
-  border-radius: 6px;
+  border-radius: 12px;
   display: flex;
   height: 100%;
   justify-content: center;
   transition: 300ms;
   width: 100%;
-}
-
-.button-64:disabled span {
-  background-color: rgb(54, 54, 54);
 }
 
 .button-64:not( :disabled ):hover span {
@@ -89,9 +83,7 @@ ref=beautifulboxshadow-bottom - button por GreenLight + ajustes meus */
 
 @media only screen and ( min-width : 768px ) {
 
-
   .button-64 {
     font-size: 1.2rem;
-    height: 40px;
   }
 }

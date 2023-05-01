@@ -129,23 +129,36 @@ class Game extends Component {
         <Header />
         <main className="main">
           <section className="question-container">
-            <div
+            <h3
+              className="question-category"
               data-testid="question-category"
             >
               {
                 questions[currentQuestionIndex].category
               }
 
-            </div>
+            </h3>
             <div
               data-testid="question-text"
               dangerouslySetInnerHTML={ {
                 __html: questions[currentQuestionIndex].question,
               } }
             />
-            <section>
-              <h1>{timer !== 0 ? timer : 'O tempo acabou'}</h1>
-            </section>
+            <h3 className="timer">
+              <i className="ri-timer-line" />
+              <span>
+                {timer !== 0 ? timer : 'O tempo acabou'}
+              </span>
+            </h3>
+            {showNextButton && (
+              <button
+                data-testid="btn-next"
+                onClick={ this.handleNextClick }
+                className="button-64"
+              >
+                <span>Next</span>
+              </button>
+            )}
           </section>
           <section className="answers-container">
             {allAnswers.map((answer, index) => (
@@ -166,15 +179,6 @@ class Game extends Component {
                 />
               </div>
             ))}
-            {showNextButton && (
-              <button
-                data-testid="btn-next"
-                onClick={ this.handleNextClick }
-                className="button-64"
-              >
-                <span>Next</span>
-              </button>
-            )}
           </section>
         </main>
       </>
