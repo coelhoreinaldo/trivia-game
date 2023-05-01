@@ -125,7 +125,7 @@ class Game extends Component {
     }
 
     return (
-      <div>
+      <>
         <Header />
         <section>
           <div
@@ -173,7 +173,7 @@ class Game extends Component {
         <section>
           <h1>{timer !== 0 ? timer : 'O tempo acabou'}</h1>
         </section>
-      </div>
+      </>
     );
   }
 }

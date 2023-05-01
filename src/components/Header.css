@@ -1,0 +1,19 @@
+.header {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.header .profile {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header .profile img {
+  border-radius: 50%;
+  width: 50%;
+}
