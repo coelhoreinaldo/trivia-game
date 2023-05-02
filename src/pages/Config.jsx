@@ -7,8 +7,8 @@ import './Config.css';
 class Config extends Component {
   state = {
     categories: [],
-    selectedCategory: 'General Knowledge',
-    selectedDifficulty: 'easy',
+    selectedCategory: 0,
+    selectedDifficulty: '',
   };
 
   componentDidMount() {
@@ -22,7 +22,14 @@ class Config extends Component {
   };
 
   handleChange = ({ target }) => {
-    const { name, value } = target;
+    const { name } = target;
+    let { value } = target;
+    if (value === 'Any Difficulty') {
+      value = '';
+    }
+    if (value === 'Any Category') {
+      value = 0;
+    }
     this.setState({ [name]: value });
   };
 
@@ -31,8 +38,11 @@ class Config extends Component {
     event.preventDefault();
     const { selectedCategory, selectedDifficulty, categories } = this.state;
     const { dispatch } = this.props;
-    const findId = categories.find((category) => category.name === selectedCategory);
-    dispatch(getCategory(findId.id));
+    let category = selectedCategory;
+    if (selectedCategory) {
+      category = categories.find((item) => item.name === selectedCategory).id;
+    }
+    dispatch(getCategory(category));
     dispatch(getDifficulty(selectedDifficulty));
 
     history.push('/');
@@ -67,6 +77,7 @@ class Config extends Component {
               value={ selectedCategory }
               id="selectedCategory"
             >
+              <option value="Any Category">Any Category</option>
               {categories.map((category) => (
                 <option key={ category.id }>
                   {category.name}
@@ -84,6 +95,7 @@ class Config extends Component {
               value={ selectedDifficulty }
               id="difficulty"
             >
+              <option value="Any Difficulty">Any Difficulty</option>
               <option>easy</option>
               <option>medium</option>
               <option>hard</option>
