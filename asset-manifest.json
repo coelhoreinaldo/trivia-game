@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/trivia-game/static/css/main.4229e399.css",
+    "main.js": "/trivia-game/static/js/main.fc68a766.js",
+    "static/media/remixicon.svg?t=1681573354175": "/trivia-game/static/media/remixicon.7b85b7f8453487681fc4.svg",
+    "static/media/remixicon.eot?t=1681573354175": "/trivia-game/static/media/remixicon.ae7015155af44fd22375.eot",
+    "static/media/remixicon.ttf?t=1681573354175": "/trivia-game/static/media/remixicon.8df75b42f93ef0e1f8aa.ttf",
+    "static/media/remixicon.woff?t=1681573354175": "/trivia-game/static/media/remixicon.56b6495e17f23a23803a.woff",
+    "static/media/remixicon.woff2?t=1681573354175": "/trivia-game/static/media/remixicon.52f02e1386dd3597bc00.woff2",
+    "static/media/trivia.png": "/trivia-game/static/media/trivia.7e9181d35c0b06d5abc0.png",
+    "index.html": "/trivia-game/index.html",
+    "main.4229e399.css.map": "/trivia-game/static/css/main.4229e399.css.map",
+    "main.fc68a766.js.map": "/trivia-game/static/js/main.fc68a766.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4229e399.css",
+    "static/js/main.fc68a766.js"
+  ]
+}
