@@ -4,7 +4,7 @@
 
 ## 📘 Sobre
 
-Jogo no estilo Trivia em que são feitas perguntas de diversos temas. O projeto foi inicialmente desenvolvido em grupo com as pessoas desenvolvedoras [Anderson Huang](https://github.com/andhuangg) e [Gabriel Rodrigues](https://github.com/gabrielr99). Após a entrega do projeto, fiz a estilização e implementei algumas features individualmente.
+Jogo no estilo Trivia em que são feitas perguntas de diversos temas. As perguntas foram retiradas da [Api do Trivia](https://opentdb.com/api_config.php). O projeto foi inicialmente desenvolvido em grupo com as pessoas desenvolvedoras [Anderson Huang](https://github.com/andhuangg) e [Gabriel Rodrigues](https://github.com/gabrielr99). Após a entrega do projeto, fiz a estilização e implementei algumas features individualmente.
 
 ## 🧩 Funcionalidades
 
