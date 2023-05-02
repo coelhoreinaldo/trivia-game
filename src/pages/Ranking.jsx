@@ -19,41 +19,44 @@ class Ranking extends Component {
     const { history } = this.props;
     const { rankingLS } = this.state;
     return (
-      <div className="cointainer-page-ranking">
-        <h1 data-testid="ranking-title">RANKING</h1>
+      <main className="ranking-main">
 
-        <div className="container-users-ranking">
+        <h1 data-testid="ranking-title" className="ranking-title">Ranking</h1>
+        <section className="users-ranking">
           {
             rankingLS.map((user, index) => (
-              <div
+              <section
                 key={ index }
-                className="container-user"
+                className="user"
               >
                 <img
                   src={ user.urlIMG }
-                  alt="Imagem do participante"
-                  className="img-user"
+                  alt="user"
+                  className="user-img"
                 />
-                <div className="name-score-user">
+                <section className="name-score">
                   <span data-testid={ `player-name-${index}` }>{user.name}</span>
                   <div className="score-user">
-                    <span data-testid={ `player-score-${index}` }>{user.score}</span>
-                    <span className="pts">pts</span>
+                    <span data-testid={ `player-score-${index}` }>
+                      {`Score: ${user.score}`}
+                      {' '}
+                      <i className="ri-star-fill star" />
+                    </span>
                   </div>
-                </div>
-              </div>
+                </section>
+              </section>
             ))
           }
-        </div>
+        </section>
 
         <button
-          className="ranking-btn"
+          className="button-64"
           data-testid="btn-go-home"
           onClick={ () => history.push('/') }
         >
-          JOGAR NOVAMENTE
+          <span>Play Again</span>
         </button>
-      </div>
+      </main>
     );
   }
 }

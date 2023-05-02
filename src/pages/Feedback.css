@@ -1,0 +1,78 @@
+.feedbacks-main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  justify-content: center;
+  padding: 116px 16px 16px;
+  width: 100%;
+}
+
+.feedbacks-main .feedbacks-title {
+  background-color: rgb(187, 2, 187);
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  color: white;
+  font-size: 1rem;
+  margin-top: -24px;
+  padding: 4px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.feedbacks-main .results {
+  align-items: center;
+  background-color: lightblue;
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  max-height: 160px;
+  max-width: 600px;
+  padding: 8px;
+  text-align: center;
+  width: 100%;
+}
+
+.feedbacks-main .fail {
+  background: linear-gradient(319.6deg, rgb(243, 0, 79) 20.5%, rgb(255, 236, 68) 110.9%);
+  background-clip: text;
+  color: transparent;
+}
+
+.feedbacks-main .success {
+  background: linear-gradient(to left, #0fd850 0%, #f9f047 100%);
+  background-clip: text;
+  color: transparent;
+}
+
+.feedbacks-main .buttons {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.feedbacks-main .buttons .button-64 {
+  min-width: 120px;
+}
+
+
+@media only screen and ( min-width : 768px ) {
+
+  .feedbacks-main {
+    padding: 16px;
+  }
+
+  .feedbacks-main .results {
+    font-size: 1.3rem;
+    height: 360px;
+    max-height: unset;
+    max-width: unset;
+    width: 720px;
+  }
+
+}

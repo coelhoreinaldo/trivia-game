@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-max-depth */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { resetUser } from '../redux/actions/action';
+import './Feedback.css';
 
 class Feedback extends Component {
   userHitAndInfo = () => {
@@ -20,13 +22,25 @@ class Feedback extends Component {
     };
   };
 
-  handleClick = ({ target }) => {
+  handlePlayAgain = () => {
     const { history, dispatch } = this.props;
-    if (target.value === 'ranking') {
-      history.push('/ranking');
+    history.push('/');
+
+    const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia'));
+    if (!rankingLS) {
+      localStorage
+        .setItem('rankingTrivia', JSON.stringify([this.userHitAndInfo()]));
     } else {
-      history.push('/');
+      localStorage
+        .setItem('rankingTrivia', JSON.stringify([...rankingLS, this.userHitAndInfo()]));
     }
+
+    dispatch(resetUser());
+  };
+
+  handleRanking = () => {
+    const { history, dispatch } = this.props;
+    history.push('/ranking');
 
     const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia'));
     if (!rankingLS) {
@@ -44,32 +58,44 @@ class Feedback extends Component {
     const MIN_ASSERTIONS = 3;
     const { assertions, score } = this.props;
     return (
-      <div>
+      <>
         <Header />
-        <h1>Feedbacks</h1>
-        <p data-testid="feedback-total-score">{score}</p>
-        <p data-testid="feedback-total-question">{assertions}</p>
-        <p data-testid="feedback-text">
-          {
-            assertions < MIN_ASSERTIONS ? 'Could be better...' : 'Well Done!'
-          }
-
-        </p>
-        <button
-          data-testid="btn-ranking"
-          onClick={ (e) => this.handleClick(e) }
-          value="ranking"
-        >
-          VER RANKING
-        </button>
-        <button
-          data-testid="btn-play-again"
-          onClick={ (e) => this.handleClick(e) }
-          value="play-again"
-        >
-          Play Again
-        </button>
-      </div>
+        <main className="feedbacks-main">
+          <section className="results">
+            <h3 className="feedbacks-title">Feedbacks</h3>
+            <div>
+              <p data-testid="feedback-total-score">{`Score: ${score}`}</p>
+              <p data-testid="feedback-total-question">{`Assertions: ${assertions}`}</p>
+              <strong
+                data-testid="feedback-text"
+                className={
+                  assertions < MIN_ASSERTIONS ? 'fail' : 'success'
+                }
+              >
+                {
+                  assertions < MIN_ASSERTIONS ? 'Could be better...' : 'Well Done!'
+                }
+              </strong>
+            </div>
+            <section className="buttons">
+              <button
+                className="button-64"
+                data-testid="btn-ranking"
+                onClick={ this.handleRanking }
+              >
+                <span>Ranking</span>
+              </button>
+              <button
+                className="button-64"
+                data-testid="btn-play-again"
+                onClick={ this.handlePlayAgain }
+              >
+                <span>Play Again</span>
+              </button>
+            </section>
+          </section>
+        </main>
+      </>
     );
   }
 }

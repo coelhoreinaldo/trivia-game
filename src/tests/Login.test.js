@@ -68,6 +68,10 @@ describe('the login page', () => {
   });
 
   it('should redirect to settings page when the button settings is clicked', () => {
+    //arrumar depois
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: async () => (mockApiData),
+    });
     const { history } = renderWithRouterAndRedux(<App />);
 
     const emailEl = screen.getByTestId(emailTestId);

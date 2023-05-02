@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,7 +8,6 @@ import { getAssertions, incrementScore } from '../redux/actions/action';
 import calculateScore from '../utils/calculateScore';
 
 const RANDOM_SORT = 0.5;
-// const TOKEN_EXPIRED = 3;
 
 class Game extends Component {
   constructor(props) {
@@ -39,27 +39,15 @@ class Game extends Component {
 
   randomAnswers = () => {
     const { currentQuestionIndex, questions } = this.state;
-    const { history } = this.props;
 
     const question = questions[currentQuestionIndex];
 
-    if (question) {
-      this.setState({
-        allAnswers: [
-          ...question.incorrect_answers,
-          question.correct_answer,
-        ].sort(() => Math.random() - RANDOM_SORT),
-      });
-    } else {
-      history.push('/');
-    }
-    // Pra mim esse seria o certo, mas o cypress reprova????
-    // this.setState({
-    //   allAnswers: [
-    //     ...question.incorrect_answers,
-    //     question.correct_answer,
-    //   ].sort(() => Math.random() - RANDOM_SORT),
-    // });
+    this.setState({
+      allAnswers: [
+        ...question.incorrect_answers,
+        question.correct_answer,
+      ].sort(() => Math.random() - RANDOM_SORT),
+    });
   };
 
   handleTimer = () => {
@@ -74,25 +62,11 @@ class Game extends Component {
 
   fetchQuestions = async () => {
     const { history } = this.props;
-
-    // const token = localStorage.getItem('token');
-    // const response = await fetch(
-    //   `https://opentdb.com/api.php?amount=5&token=${token}`,
-    // );
-    // const data = await response.json();
-
-    // if (data.response_code === TOKEN_EXPIRED) {
-    //   localStorage.removeItem('token');
-    //   history.push('/');
-    // } else {
-    //   this.setState(({ questions: data.results }), () => this.randomAnswers());
-    // }
+    const { category, difficulty, amount } = this.props;
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(
-        `https://opentdb.com/api.php?amount=5&token=${token}`,
-      );
+      const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&token=${token}`);
       const data = await response.json();
       this.setState(({ questions: data.results }), () => this.randomAnswers());
     } catch (error) {
@@ -113,15 +87,6 @@ class Game extends Component {
     }
   };
 
-  getAnswerClassName = (answer, correctAnswer) => {
-    const { selectedAnswer, timer } = this.state;
-
-    if (selectedAnswer || timer === 0) {
-      return answer === correctAnswer ? 'green' : 'red';
-    }
-    return '';
-  };
-
   handleNextClick = () => {
     const { currentQuestionIndex, questions } = this.state;
     const { history } = this.props;
@@ -138,6 +103,16 @@ class Game extends Component {
     );
   };
 
+  answerClassName(answer) {
+    const { selectedAnswer, questions, currentQuestionIndex, timer } = this.state;
+
+    if (selectedAnswer || timer === 0) {
+      return answer === questions[currentQuestionIndex].correct_answer ? 'green' : 'red';
+    }
+
+    return '';
+  }
+
   render() {
     const { questions,
       allAnswers,
@@ -149,57 +124,64 @@ class Game extends Component {
       return <p>Carregando...</p>;
     }
 
-    const answerClassName = (answer) => this
-      .getAnswerClassName(answer, questions[currentQuestionIndex].correct_answer);
-
     return (
-      <div className="container">
+      <>
         <Header />
-        <section className="game-question">
-          <div
-            data-testid="question-category"
-            className="question-category"
-          >
-            {
-              questions[currentQuestionIndex].category
-            }
-
-          </div>
-          <div
-            data-testid="question-text"
-            dangerouslySetInnerHTML={ {
-              __html: questions[currentQuestionIndex].question,
-            } }
-          />
-          {allAnswers.map((answer, index) => (
-            <div key={ index } data-testid="answer-options">
-              <button
-                className={ answerClassName(answer) }
-                onClick={ () => this.handleAnswerClick(answer) }
-                disabled={ timer === 0 || selectedAnswer }
-                data-testid={
-                  answer === questions[currentQuestionIndex].correct_answer
-                    ? 'correct-answer'
-                    : `wrong-answer-${index}`
-                }
-              >
-                {answer}
-              </button>
-            </div>
-          ))}
-          {showNextButton && (
-            <button
-              data-testid="btn-next"
-              onClick={ this.handleNextClick }
+        <main className="main">
+          <section className="question-container">
+            <h3
+              className="question-category"
+              data-testid="question-category"
             >
-              Next
-            </button>
-          )}
-        </section>
-        <section>
-          <h1>{timer !== 0 ? timer : 'O tempo acabou'}</h1>
-        </section>
-      </div>
+              {
+                questions[currentQuestionIndex].category
+              }
+
+            </h3>
+            <div
+              data-testid="question-text"
+              dangerouslySetInnerHTML={ {
+                __html: questions[currentQuestionIndex].question,
+              } }
+            />
+            <h3 className="timer">
+              <i className="ri-timer-line" />
+              <span>
+                {timer !== 0 ? timer : 'THE TIME IS OVER'}
+              </span>
+            </h3>
+            {showNextButton && (
+              <button
+                data-testid="btn-next"
+                onClick={ this.handleNextClick }
+                className="button-64"
+              >
+                <span>Next</span>
+              </button>
+            )}
+          </section>
+          <section className="answers-container">
+            {allAnswers.map((answer, index) => (
+              <div key={ index } data-testid="answer-options">
+                <button
+                  className={ `${this.answerClassName(answer)} button-64 answer-options` }
+                  onClick={ () => this.handleAnswerClick(answer) }
+                  disabled={ timer === 0 || selectedAnswer }
+                  dangerouslySetInnerHTML={ {
+                    __html: `<span class="my-class">${answer}</span>`,
+                  } }
+                  data-testid={
+                    answer === questions[currentQuestionIndex].correct_answer
+                      ? 'correct-answer'
+                      : `wrong-answer-${index}`
+                  }
+                  aria-label={ answer }
+                />
+              </div>
+            ))}
+          </section>
+        </main>
+      </>
     );
   }
 }
@@ -209,6 +191,15 @@ Game.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  category: PropTypes.number.isRequired,
+  difficulty: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
 };
 
-export default connect()(Game);
+const mapStateToProps = (state) => ({
+  category: state.config.category,
+  difficulty: state.config.difficulty,
+  amount: state.config.amount,
+});
+
+export default connect(mapStateToProps)(Game);

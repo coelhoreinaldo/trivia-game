@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getEmail } from '../redux/actions/action';
 import './Login.css';
+import logo from '../trivia.png';
+import Footer from '../components/Footer';
 
 // const TOKEN_EXPIRED = 3;
 
@@ -38,17 +40,6 @@ class Login extends Component {
       localStorage.removeItem('token');
       history.push('/');
     }
-    // dispatch(getEmail(email, name));
-    // const response = await fetch('https://opentdb.com/api_token.php?command=request');
-    // const data = await response.json();
-
-    // if (data.response_code === TOKEN_EXPIRED) {
-    //   localStorage.removeItem('token');
-    //   history.push('/');
-    // } else {
-    //   localStorage.setItem('token', data.token);
-    //   history.push('/game');
-    // }
   };
 
   handleConfigButton = () => {
@@ -59,47 +50,57 @@ class Login extends Component {
   render() {
     const { email, name, loading } = this.state;
     return (
-      <div className="login-container">
+      <div className="form-container login-container">
         <form className="form" onSubmit={ this.handleSubmit }>
-          <label className="label" htmlFor="">
-            Email
+          <img src={ logo } alt="logo" className="trivia-logo" />
+          <div className="input-container">
             <input
+              id="email"
               className="input"
               type="email"
               value={ email }
               name="email"
               onChange={ this.handleChange }
               data-testid="input-gravatar-email"
+              placeholder="Qual é o seu email?"
             />
-          </label>
-          <label className="label" htmlFor="">
-            Nome
+          </div>
+          <div className="input-container">
             <input
+              id="name"
               className="input"
               type="text"
               value={ name }
               name="name"
               onChange={ this.handleChange }
               data-testid="input-player-name"
+              placeholder="Qual é o seu nome?"
             />
-          </label>
-          <button
-            className="button btn-settings"
-            type="button"
-            data-testid="btn-settings"
-            onClick={ this.handleConfigButton }
-          >
-            Configuração
-          </button>
-          <button
-            className="button btn-play"
-            type="submit"
-            disabled={ !name || !email || loading }
-            data-testid="btn-play"
-          >
-            {loading ? '...' : 'Play'}
-          </button>
+          </div>
+          <div className="buttons-container">
+            <button
+              className="button-64 btn-play"
+              type="submit"
+              disabled={ !name || !email || loading }
+              data-testid="btn-play"
+            >
+              <span className="text">
+                {loading ? '...' : 'Play'}
+              </span>
+            </button>
+            <button
+              className="button-64 btn-settings"
+              type="button"
+              data-testid="btn-settings"
+              onClick={ this.handleConfigButton }
+            >
+              <span className="text">
+                Settings
+              </span>
+            </button>
+          </div>
         </form>
+        <Footer />
       </div>
     );
   }

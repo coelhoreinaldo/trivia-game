@@ -120,7 +120,7 @@ describe('the game page', () => {
       });
     }
 
-    const timeOutText = screen.getByRole('heading', { name: /o tempo acabou/i });
+    const timeOutText = screen.getByRole('heading', { name: /THE TIME IS OVER/i });
     expect(timeOutText).toBeInTheDocument();
   })
 });
