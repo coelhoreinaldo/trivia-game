@@ -62,11 +62,11 @@ class Game extends Component {
 
   fetchQuestions = async () => {
     const { history } = this.props;
-    const { category, difficulty } = this.props;
+    const { category, difficulty, amount } = this.props;
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://opentdb.com/api.php?amount=5&category=${category}&difficulty=${difficulty}&token=${token}`);
+      const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&token=${token}`);
       const data = await response.json();
       this.setState(({ questions: data.results }), () => this.randomAnswers());
     } catch (error) {
@@ -193,11 +193,13 @@ Game.propTypes = {
   dispatch: PropTypes.func.isRequired,
   category: PropTypes.number.isRequired,
   difficulty: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   category: state.config.category,
   difficulty: state.config.difficulty,
+  amount: state.config.amount,
 });
 
 export default connect(mapStateToProps)(Game);

@@ -1,8 +1,10 @@
-import { GET_CATEGORY, GET_DIFFICULTY, RESET_SETTINGS } from '../actions/typeActions';
+import { GET_AMOUNT, GET_CATEGORY, GET_DIFFICULTY,
+  RESET_SETTINGS } from '../actions/typeActions';
 
 const INITIAL_STATE = {
   category: 0,
   difficulty: '',
+  amount: 5,
 };
 
 export const config = (state = INITIAL_STATE, action) => {
@@ -18,10 +20,16 @@ export const config = (state = INITIAL_STATE, action) => {
       ...state,
       difficulty: payload,
     };
+  case GET_AMOUNT:
+    return {
+      ...state,
+      amount: payload,
+    };
   case RESET_SETTINGS:
     return {
       category: 0,
       difficulty: '',
+      amount: 5,
     };
   default:
     return state;

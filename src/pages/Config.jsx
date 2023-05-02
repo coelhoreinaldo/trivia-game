@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCategory, getDifficulty, resetSettings } from '../redux/actions/action';
+import { getAmount, getCategory,
+  getDifficulty, resetSettings } from '../redux/actions/action';
 import './Config.css';
 
 class Config extends Component {
@@ -9,6 +10,7 @@ class Config extends Component {
     categories: [],
     selectedCategory: 0,
     selectedDifficulty: '',
+    selectedAmount: 5,
   };
 
   componentDidMount() {
@@ -29,7 +31,8 @@ class Config extends Component {
   handleSubmit = (event) => {
     const { history } = this.props;
     event.preventDefault();
-    const { selectedCategory, selectedDifficulty, categories } = this.state;
+    const { selectedCategory, selectedDifficulty,
+      selectedAmount, categories } = this.state;
     const { dispatch } = this.props;
     let category = selectedCategory;
     if (selectedCategory !== 0) {
@@ -37,6 +40,7 @@ class Config extends Component {
     }
     dispatch(getCategory(category));
     dispatch(getDifficulty(selectedDifficulty));
+    dispatch(getAmount(Number(selectedAmount)));
 
     history.push('/');
   };
@@ -50,7 +54,8 @@ class Config extends Component {
   };
 
   render() {
-    const { categories, selectedCategory, selectedDifficulty } = this.state;
+    const { categories,
+      selectedCategory, selectedDifficulty, selectedAmount } = this.state;
     return (
       <div className="form-container config-container">
         <form
@@ -92,6 +97,22 @@ class Config extends Component {
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div className="select-container">
+
+            <label htmlFor="amount">
+              Amount
+            </label>
+            <select
+              onChange={ this.handleChange }
+              name="selectedAmount"
+              value={ selectedAmount }
+              id="amount"
+            >
+              <option>5</option>
+              <option>10</option>
+              <option>15</option>
             </select>
           </div>
 
