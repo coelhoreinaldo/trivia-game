@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { getEmail } from '../redux/actions/action';
 import './Login.css';
 import logo from '../trivia.png';
+import Footer from '../components/Footer';
 
 // const TOKEN_EXPIRED = 3;
 
@@ -78,16 +79,6 @@ class Login extends Component {
           </div>
           <div className="buttons-container">
             <button
-              className="button-64 btn-settings"
-              type="button"
-              data-testid="btn-settings"
-              onClick={ this.handleConfigButton }
-            >
-              <span className="text">
-                Settings
-              </span>
-            </button>
-            <button
               className="button-64 btn-play"
               type="submit"
               disabled={ !name || !email || loading }
@@ -97,8 +88,19 @@ class Login extends Component {
                 {loading ? '...' : 'Play'}
               </span>
             </button>
+            <button
+              className="button-64 btn-settings"
+              type="button"
+              data-testid="btn-settings"
+              onClick={ this.handleConfigButton }
+            >
+              <span className="text">
+                Settings
+              </span>
+            </button>
           </div>
         </form>
+        <Footer />
       </div>
     );
   }
