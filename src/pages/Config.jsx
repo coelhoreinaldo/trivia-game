@@ -22,14 +22,7 @@ class Config extends Component {
   };
 
   handleChange = ({ target }) => {
-    const { name } = target;
-    let { value } = target;
-    if (value === 'Any Difficulty') {
-      value = '';
-    }
-    if (value === 'Any Category') {
-      value = 0;
-    }
+    const { name, value } = target;
     this.setState({ [name]: value });
   };
 
@@ -39,7 +32,7 @@ class Config extends Component {
     const { selectedCategory, selectedDifficulty, categories } = this.state;
     const { dispatch } = this.props;
     let category = selectedCategory;
-    if (selectedCategory) {
+    if (selectedCategory !== 0) {
       category = categories.find((item) => item.name === selectedCategory).id;
     }
     dispatch(getCategory(category));
@@ -77,7 +70,7 @@ class Config extends Component {
               value={ selectedCategory }
               id="selectedCategory"
             >
-              <option value="Any Category">Any Category</option>
+              <option value={ 0 }>Any Category</option>
               {categories.map((category) => (
                 <option key={ category.id }>
                   {category.name}
@@ -95,10 +88,10 @@ class Config extends Component {
               value={ selectedDifficulty }
               id="difficulty"
             >
-              <option value="Any Difficulty">Any Difficulty</option>
-              <option>easy</option>
-              <option>medium</option>
-              <option>hard</option>
+              <option value="">Any Difficulty</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
             </select>
           </div>
 
