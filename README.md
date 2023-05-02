@@ -1,29 +1,34 @@
 # ❔ Trivia Game
 
-<img src='./src/images/1.onlinestore.png' alt='trybetunes página inicial' />
+<img src='./images/trivia.png' alt='trybetunes página inicial' />
 
 ## 📘 Sobre
 
-Jogo no estilo Trivia em que são feitas perguntas de conhecimentos gerais. O projeto foi inicialmente desenvolvido em grupo com o Huang e com o Gabriel Rodrigues.
+Jogo no estilo Trivia em que são feitas perguntas de diversos temas. O projeto foi inicialmente desenvolvido em grupo com as pessoas desenvolvedoras [Anderson Huang](https://github.com/andhuangg) e [Gabriel Rodrigues](https://github.com/gabrielr99). Após a entrega do projeto, fiz a estilização e implementei algumas features individualmente.
 
 ## 🧩 Funcionalidades
 
 - Entrar na aplicação com um email e nome.
-- Responder às perguntas num período de 30 segundos.
+- Responder às perguntas em um período de 30 segundos.
+- Visualizar uma tela de feedbacks, contendo total de acertos e score.
+- Visualizar uma tela de ranking local, construída usando LocalStorage.
+- Tela de configurações, podendo alterar a dificuldade, tema e quantidade de perguntas.
 
-Acesse [aqui](https://coelhoreinaldo.github.io/trivia-game).
+[Navegar para a aplicação](https://coelhoreinaldo.github.io/trivia-game).
 
 ## ⚛️ Ferramentas
 
 Projeto construído utilizando React.js.
 
-- Componentes de Classe
+- JavaScript;
+- Redux;
+- Componentes de Classe;
 - React Router;
 - Requisição de API em React;
 - States;
 - Props;
 - Forms em React;
-- Metodologia TDD (Test Driven Development);
+- RTL e Jest;
 - Mobile First;
 - Scrum e Kanban.
 
@@ -39,8 +44,8 @@ Projeto construído utilizando React.js.
 
 ## 📝 Nota
 
-<img src='./src/images/nota.jpg' alt='nota final' />
+<img src='./images/grade.png' alt='nota final' />
 
 ## ©️ Copyright
 
-Este projeto foi inicialmente desenvolvido em grupo. A partir dos commits do dia 24/03, todo o código refatorado e o CSS implementado são de minha autoria e os direitos são reservados a mim. A logo "Online Store" é de autoria da Trybe.
+Este projeto foi inicialmente desenvolvido em grupo. A partir dos commits do dia 24/04, todo o código refatorado e o CSS implementado são de minha autoria e os direitos são reservados a mim. A logo "Trivia" é de autoria da Trybe.
