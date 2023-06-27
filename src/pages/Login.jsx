@@ -1,37 +1,30 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getEmail } from '../redux/actions/action';
 import './Login.css';
 import logo from '../trivia.png';
 import Footer from '../components/Footer';
 
-// const TOKEN_EXPIRED = 3;
-
-class Login extends Component {
-  state = {
+function Login({ history }) {
+  const [formData, setFormData] = useState({
     email: '',
-    name: '',
-    loading: false,
+    fullName: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.handleAPI();
-    this.setState({ loading: true });
-  };
-
-  handleAPI = async () => {
-    const { email, name } = this.state;
-    const { dispatch, history } = this.props;
-
+  const handleAPI = async () => {
     try {
-      dispatch(getEmail(email, name));
+      dispatch(getEmail(formData.email, formData.fullName));
       const response = await fetch('https://opentdb.com/api_token.php?command=request');
       const data = await response.json();
       localStorage.setItem('token', data.token);
@@ -42,75 +35,72 @@ class Login extends Component {
     }
   };
 
-  handleConfigButton = () => {
-    const { history } = this.props;
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleAPI();
+    setLoading(true);
+  };
+
+  const handleConfigButton = () => {
     history.push('/config');
   };
 
-  render() {
-    const { email, name, loading } = this.state;
-    return (
-      <div className="form-container login-container">
-        <form className="form" onSubmit={ this.handleSubmit }>
-          <img src={ logo } alt="logo" className="trivia-logo" />
-          <div className="input-container">
-            <input
-              id="email"
-              className="input"
-              type="email"
-              value={ email }
-              name="email"
-              onChange={ this.handleChange }
-              data-testid="input-gravatar-email"
-              placeholder="Qual é o seu email?"
-            />
-          </div>
-          <div className="input-container">
-            <input
-              id="name"
-              className="input"
-              type="text"
-              value={ name }
-              name="name"
-              onChange={ this.handleChange }
-              data-testid="input-player-name"
-              placeholder="Qual é o seu nome?"
-            />
-          </div>
-          <div className="buttons-container">
-            <button
-              className="button-64 btn-play"
-              type="submit"
-              disabled={ !name || !email || loading }
-              data-testid="btn-play"
-            >
-              <span className="text">
-                {loading ? '...' : 'Play'}
-              </span>
-            </button>
-            <button
-              className="button-64 btn-settings"
-              type="button"
-              data-testid="btn-settings"
-              onClick={ this.handleConfigButton }
-            >
-              <span className="text">
-                Settings
-              </span>
-            </button>
-          </div>
-        </form>
-        <Footer />
-      </div>
-    );
-  }
+  return (
+    <div className="form-container login-container">
+      <form className="form" onSubmit={ handleSubmit }>
+        <img src={ logo } alt="logo" className="trivia-logo" />
+        <div className="input-container">
+          <input
+            id="email"
+            className="input"
+            type="email"
+            value={ formData.email }
+            name="email"
+            onChange={ handleChange }
+            data-testid="input-gravatar-email"
+            placeholder="Qual é o seu email?"
+          />
+        </div>
+        <div className="input-container">
+          <input
+            id="name"
+            className="input"
+            type="text"
+            value={ formData.fullName }
+            name="fullName"
+            onChange={ handleChange }
+            data-testid="input-player-name"
+            placeholder="Qual é o seu nome?"
+          />
+        </div>
+        <div className="buttons-container">
+          <button
+            className="button-64 btn-play"
+            type="submit"
+            disabled={ !formData.fullName || !formData.email || loading }
+            data-testid="btn-play"
+          >
+            <span className="text">{loading ? '...' : 'Play'}</span>
+          </button>
+          <button
+            className="button-64 btn-settings"
+            type="button"
+            data-testid="btn-settings"
+            onClick={ handleConfigButton }
+          >
+            <span className="text">Settings</span>
+          </button>
+        </div>
+      </form>
+      <Footer />
+    </div>
+  );
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default connect()(Login);
+export default Login;
