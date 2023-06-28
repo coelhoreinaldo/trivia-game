@@ -1,64 +1,56 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Ranking.css';
 
-class Ranking extends Component {
-  state = {
-    rankingLS: [],
-  };
+function Ranking({ history }) {
+  const [rankingLS, setRankingLS] = useState([]);
 
-  componentDidMount() {
-    const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia'));
-    rankingLS.sort((a, b) => b.score - a.score);
-    this.setState({
-      rankingLS,
-    });
-  }
+  useEffect(() => {
+    const ranking = JSON.parse(localStorage.getItem('rankingTrivia'));
+    ranking.sort((a, b) => b.score - a.score);
+    setRankingLS(ranking);
+  }, []);
 
-  render() {
-    const { history } = this.props;
-    const { rankingLS } = this.state;
-    return (
-      <main className="ranking-main">
+  return (
+    <main className="ranking-main">
 
-        <h1 data-testid="ranking-title" className="ranking-title">Ranking</h1>
-        <section className="users-ranking">
-          {
-            rankingLS.map((user, index) => (
-              <section
-                key={ index }
-                className="user"
-              >
-                <img
-                  src={ user.urlIMG }
-                  alt="user"
-                  className="user-img"
-                />
-                <section className="name-score">
-                  <span data-testid={ `player-name-${index}` }>{user.name}</span>
-                  <div className="score-user">
-                    <span data-testid={ `player-score-${index}` }>
-                      {`Score: ${user.score}`}
-                      {' '}
-                      <i className="ri-star-fill star" />
-                    </span>
-                  </div>
-                </section>
+      <h1 data-testid="ranking-title" className="ranking-title">Ranking</h1>
+      <section className="users-ranking">
+        {
+          rankingLS.map((user, index) => (
+            <section
+              key={ index }
+              className="user"
+            >
+              <img
+                src={ user.urlIMG }
+                alt="user"
+                className="user-img"
+              />
+              <section className="name-score">
+                <span data-testid={ `player-name-${index}` }>{user.name}</span>
+                <div className="score-user">
+                  <span data-testid={ `player-score-${index}` }>
+                    {`Score: ${user.score}`}
+                    {' '}
+                    <i className="ri-star-fill star" />
+                  </span>
+                </div>
               </section>
-            ))
-          }
-        </section>
+            </section>
+          ))
+        }
+      </section>
 
-        <button
-          className="button-64"
-          data-testid="btn-go-home"
-          onClick={ () => history.push('/') }
-        >
-          <span>Play Again</span>
-        </button>
-      </main>
-    );
-  }
+      <button
+        className="button-64"
+        data-testid="btn-go-home"
+        onClick={ () => history.push('/') }
+      >
+        <span>Play Again</span>
+      </button>
+    </main>
+  );
 }
 
 Ranking.propTypes = {
