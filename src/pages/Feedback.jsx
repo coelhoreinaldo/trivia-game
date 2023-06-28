@@ -1,19 +1,21 @@
 /* eslint-disable react/jsx-max-depth */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { resetUser } from '../redux/actions/action';
 import './Feedback.css';
 
-class Feedback extends Component {
-  userHitAndInfo = () => {
-    let { email } = this.props;
-    const { name, score } = this.props;
-    email = email.trim();
-    email = email.toLowerCase();
-    const emailToLink = md5(email).toString();
+function Feedback({ history }) {
+  const MIN_ASSERTIONS = 3;
+  const dispatch = useDispatch();
+  const { email, name, score, assertions } = useSelector((state) => state.player);
+
+  const userHitAndInfo = () => {
+    let userEmail = email;
+    userEmail = email ? userEmail.trim().toLowerCase() : '';
+    const emailToLink = md5(userEmail).toString();
     const urlIMG = `https://www.gravatar.com/avatar/${emailToLink}`;
     return {
       urlIMG,
@@ -22,100 +24,72 @@ class Feedback extends Component {
     };
   };
 
-  handlePlayAgain = () => {
-    const { history, dispatch } = this.props;
+  const handlePlayAgain = () => {
     history.push('/');
 
-    const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia'));
-    if (!rankingLS) {
-      localStorage
-        .setItem('rankingTrivia', JSON.stringify([this.userHitAndInfo()]));
-    } else {
-      localStorage
-        .setItem('rankingTrivia', JSON.stringify([...rankingLS, this.userHitAndInfo()]));
-    }
+    const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia')) || [];
+    localStorage
+      .setItem('rankingTrivia', JSON.stringify([...rankingLS, userHitAndInfo()]));
 
     dispatch(resetUser());
   };
 
-  handleRanking = () => {
-    const { history, dispatch } = this.props;
+  const handleRanking = () => {
     history.push('/ranking');
 
-    const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia'));
-    if (!rankingLS) {
-      localStorage
-        .setItem('rankingTrivia', JSON.stringify([this.userHitAndInfo()]));
-    } else {
-      localStorage
-        .setItem('rankingTrivia', JSON.stringify([...rankingLS, this.userHitAndInfo()]));
-    }
+    const rankingLS = JSON.parse(localStorage.getItem('rankingTrivia')) || [];
+    localStorage
+      .setItem('rankingTrivia', JSON.stringify([...rankingLS, userHitAndInfo()]));
 
     dispatch(resetUser());
   };
 
-  render() {
-    const MIN_ASSERTIONS = 3;
-    const { assertions, score } = this.props;
-    return (
-      <>
-        <Header />
-        <main className="feedbacks-main">
-          <section className="results">
-            <h3 className="feedbacks-title">Feedbacks</h3>
-            <div>
-              <p data-testid="feedback-total-score">{`Score: ${score}`}</p>
-              <p data-testid="feedback-total-question">{`Assertions: ${assertions}`}</p>
-              <strong
-                data-testid="feedback-text"
-                className={
-                  assertions < MIN_ASSERTIONS ? 'fail' : 'success'
-                }
-              >
-                {
-                  assertions < MIN_ASSERTIONS ? 'Could be better...' : 'Well Done!'
-                }
-              </strong>
-            </div>
-            <section className="buttons">
-              <button
-                className="button-64"
-                data-testid="btn-ranking"
-                onClick={ this.handleRanking }
-              >
-                <span>Ranking</span>
-              </button>
-              <button
-                className="button-64"
-                data-testid="btn-play-again"
-                onClick={ this.handlePlayAgain }
-              >
-                <span>Play Again</span>
-              </button>
-            </section>
+  useEffect(() => () => {
+    dispatch(resetUser());
+  }, [dispatch]);
+
+  return (
+    <>
+      <Header />
+      <main className="feedbacks-main">
+        <section className="results">
+          <h3 className="feedbacks-title">Feedbacks</h3>
+          <div>
+            <p data-testid="feedback-total-score">{`Score: ${score}`}</p>
+            <p data-testid="feedback-total-question">{`Assertions: ${assertions}`}</p>
+            <strong
+              data-testid="feedback-text"
+              className={ assertions < MIN_ASSERTIONS ? 'fail' : 'success' }
+            >
+              {assertions < MIN_ASSERTIONS ? 'Could be better...' : 'Well Done!'}
+            </strong>
+          </div>
+          <section className="buttons">
+            <button
+              className="button-64"
+              data-testid="btn-ranking"
+              onClick={ handleRanking }
+            >
+              <span>Ranking</span>
+            </button>
+            <button
+              className="button-64"
+              data-testid="btn-play-again"
+              onClick={ handlePlayAgain }
+            >
+              <span>Play Again</span>
+            </button>
           </section>
-        </main>
-      </>
-    );
-  }
+        </section>
+      </main>
+    </>
+  );
 }
 
 Feedback.propTypes = {
-  assertions: PropTypes.number.isRequired,
-  score: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  dispatch: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ player }) => ({
-  email: player.gravatarEmail,
-  name: player.name,
-  score: player.score,
-  assertions: player.assertions,
-});
-
-export default connect(mapStateToProps)(Feedback);
+export default Feedback;
